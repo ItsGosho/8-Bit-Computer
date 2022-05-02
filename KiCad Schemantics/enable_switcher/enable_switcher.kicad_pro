@@ -330,7 +330,9 @@
   },
   "libraries": {
     "pinned_footprint_libs": [],
-    "pinned_symbol_libs": []
+    "pinned_symbol_libs": [
+      "Gosheto"
+    ]
   },
   "meta": {
     "filename": "enable_switcher.kicad_pro",
