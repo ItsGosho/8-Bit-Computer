@@ -19,4 +19,4 @@
 
 - Inverters & And Gate TODO: Да разпиша как работи цялото това нещо.
 
-  ![image-20220506162414006](C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220506162414006.png)
+  ![image-20220506162414006](.\Pictures\image-20220506162414006.png)
