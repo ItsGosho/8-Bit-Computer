@@ -39,3 +39,7 @@ $$
 O_3 = 1 \\
 O_4 = 0
 $$
+
+**Flow Chart:**
+
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220508161237700.png" alt="image-20220508161237700"  />
