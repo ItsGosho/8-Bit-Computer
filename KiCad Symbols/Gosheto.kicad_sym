@@ -17,6 +17,14 @@
         (stroke (width 0) (type default) (color 0 0 0 0))
         (fill (type background))
       )
+      (arc (start -1.524 -5.334) (mid -1.025 -6.2846) (end 0 -6.604)
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (arc (start 0 -6.604) (mid 0.898 -6.232) (end 1.27 -5.334)
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
       (polyline
         (pts
           (xy -20.574 -37.846)
@@ -69,6 +77,14 @@
         (pts
           (xy -20.574 -8.382)
           (xy -20.574 -18.542)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy -20.574 -7.112)
+          (xy -20.574 -8.382)
         )
         (stroke (width 0) (type default) (color 0 0 0 0))
         (fill (type none))
@@ -235,6 +251,14 @@
       )
       (polyline
         (pts
+          (xy 21.082 -7.112)
+          (xy 21.082 -8.382)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
           (xy 22.352 -37.846)
           (xy 21.082 -37.846)
         )
@@ -339,6 +363,16 @@
       )
       (polyline
         (pts
+          (xy -20.574 -7.112)
+          (xy -20.574 -5.334)
+          (xy 21.082 -5.334)
+          (xy 21.082 -7.112)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
           (xy -16.256 -14.732)
           (xy -16.256 -14.986)
           (xy -14.732 -14.986)
@@ -396,6 +430,12 @@
       )
       (text "5K" (at 12.7 -8.382 0)
         (effects (font (size 1.27 1.27)))
+      )
+      (text "Comparator_{1}" (at -11.43 -24.384 0)
+        (effects (font (size 0.6 0.6)))
+      )
+      (text "Comparator_{2}" (at 4.572 -24.13 0)
+        (effects (font (size 0.6 0.6)))
       )
       (text "NPN" (at -15.494 -12.954 0)
         (effects (font (size 0.7 0.7)))
