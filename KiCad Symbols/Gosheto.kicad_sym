@@ -115,14 +115,6 @@
       )
       (polyline
         (pts
-          (xy -19.812 -28.702)
-          (xy -15.494 -28.702)
-        )
-        (stroke (width 0) (type default) (color 0 0 0 0))
-        (fill (type none))
-      )
-      (polyline
-        (pts
           (xy -19.812 -18.542)
           (xy -20.574 -18.542)
         )
@@ -163,8 +155,24 @@
       )
       (polyline
         (pts
-          (xy -15.494 -16.256)
           (xy -15.494 -28.702)
+          (xy -15.494 -37.846)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy -15.494 -25.908)
+          (xy -15.494 -28.702)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy -15.494 -18.288)
+          (xy -15.494 -16.256)
         )
         (stroke (width 0) (type default) (color 0 0 0 0))
         (fill (type none))
@@ -291,15 +299,6 @@
       )
       (polyline
         (pts
-          (xy -20.574 -37.846)
-          (xy 2.794 -37.846)
-          (xy 2.794 -31.242)
-        )
-        (stroke (width 0) (type default) (color 0 0 0 0))
-        (fill (type none))
-      )
-      (polyline
-        (pts
           (xy -18.034 -12.954)
           (xy -18.542 -12.954)
           (xy -18.542 -8.382)
@@ -318,18 +317,9 @@
       )
       (polyline
         (pts
-          (xy -15.494 -28.702)
-          (xy -15.494 -33.274)
-          (xy -13.462 -33.274)
-        )
-        (stroke (width 0) (type default) (color 0 0 0 0))
-        (fill (type none))
-      )
-      (polyline
-        (pts
           (xy -2.286 -31.242)
-          (xy -2.286 -33.274)
-          (xy -13.462 -33.274)
+          (xy -2.286 -37.846)
+          (xy -20.574 -37.846)
         )
         (stroke (width 0) (type default) (color 0 0 0 0))
         (fill (type none))
@@ -413,6 +403,17 @@
       )
       (polyline
         (pts
+          (xy -19.812 -28.702)
+          (xy -9.906 -28.702)
+          (xy -9.906 -34.036)
+          (xy 2.794 -34.036)
+          (xy 2.794 -31.242)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
           (xy 9.906 -18.796)
           (xy 9.906 -18.288)
           (xy 11.43 -18.288)
@@ -421,6 +422,9 @@
         )
         (stroke (width 0) (type default) (color 0 0 0 0))
         (fill (type none))
+      )
+      (text "220" (at -15.494 -22.098 900)
+        (effects (font (size 1.27 1.27)))
       )
       (text "5K" (at -12.192 -8.382 0)
         (effects (font (size 1.27 1.27)))
@@ -445,6 +449,10 @@
       )
     )
     (symbol "555_Timer_Exploded_0_1"
+      (rectangle (start -16.51 -24.638) (end -14.478 -19.558)
+        (stroke (width 0.254) (type default) (color 0 0 0 0))
+        (fill (type background))
+      )
       (rectangle (start -14.732 -7.366) (end -9.652 -9.398)
         (stroke (width 0.254) (type default) (color 0 0 0 0))
         (fill (type background))
@@ -565,6 +573,14 @@
         (number "" (effects (font (size 1.27 1.27))))
       )
       (pin passive line (at -16.002 -8.382 0) (length 1.27)
+        (name "~" (effects (font (size 1.27 1.27))))
+        (number "" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line (at -15.494 -25.908 90) (length 1.27)
+        (name "~" (effects (font (size 1.27 1.27))))
+        (number "" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line (at -15.494 -18.288 270) (length 1.27)
         (name "~" (effects (font (size 1.27 1.27))))
         (number "" (effects (font (size 1.27 1.27))))
       )
