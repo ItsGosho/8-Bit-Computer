@@ -219,9 +219,9 @@
     (pin "1" (uuid 26020d8d-1181-4b4a-955a-7cedaddf3b30))
     (pin "2" (uuid 2a1617a5-9ff2-469c-841f-8910f853e5bd))
     (pin "7" (uuid da14104a-01b4-4a4e-8756-7b8b99e15c49))
-    (pin "3" (uuid b2de1057-44b4-4b1a-b3d7-c19d3cd25553))
-    (pin "5" (uuid c3f6c24d-368b-47d2-9a0a-d716bb140344))
-    (pin "6" (uuid 04b78285-4974-4fa0-8f4e-46d399f5727c))
+    (pin "3" (uuid b2de1057-44b4-4b1a-b3d7-c19d3cd25554))
+    (pin "5" (uuid c3f6c24d-368b-47d2-9a0a-d716bb140345))
+    (pin "6" (uuid 04b78285-4974-4fa0-8f4e-46d399f5727d))
   )
 
   (sheet_instances
