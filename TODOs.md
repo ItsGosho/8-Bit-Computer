@@ -6,3 +6,5 @@
 Links:
 
 https://www.ilovefreesoftware.com/13/featured/free-websites-to-make-timing-diagram-online.html
+
+https://circuitdigest.com/electronic-circuits/what-is-switch-bouncing-and-how-to-prevent-it-using-debounce-circuit

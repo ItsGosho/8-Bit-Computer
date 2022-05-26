@@ -64,10 +64,10 @@
 
 **Charging Flow:**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220524052612851.png" alt="image-20220524052612851" style="zoom:50%;" />
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220524052612851.png" alt="image-20220524052612851"  />
 
 **Discharging Flow:**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220524052829054.png" alt="image-20220524052829054" style="zoom:50%;" />
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220524052829054.png" alt="image-20220524052829054"  />
 
 https://www.digikey.bg/en/resources/conversion-calculators/conversion-calculator-555-timer
