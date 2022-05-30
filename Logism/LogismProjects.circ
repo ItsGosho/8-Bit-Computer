@@ -5,7 +5,13 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
   <lib desc="#Gates" name="1"/>
   <lib desc="#Plexers" name="2"/>
   <lib desc="#Arithmetic" name="3"/>
-  <lib desc="#Memory" name="4"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
   <lib desc="#I/O" name="5"/>
   <lib desc="#Base" name="6">
     <tool name="Text Tool">
@@ -201,10 +207,65 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="inputs" val="2"/>
     </comp>
   </circuit>
-  <circuit name="Test">
-    <a name="circuit" val="Test"/>
+  <circuit name="DigitalSPDTSwitchSimplified">
+    <a name="circuit" val="DigitalSPDTSwitchSimplified"/>
     <a name="clabel" val=""/>
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(60,20)" to="(120,20)"/>
+    <wire from="(40,130)" to="(100,130)"/>
+    <wire from="(60,70)" to="(180,70)"/>
+    <wire from="(280,50)" to="(300,50)"/>
+    <wire from="(60,30)" to="(60,70)"/>
+    <wire from="(230,30)" to="(230,40)"/>
+    <wire from="(80,40)" to="(80,80)"/>
+    <wire from="(100,90)" to="(100,130)"/>
+    <wire from="(60,20)" to="(60,30)"/>
+    <wire from="(40,30)" to="(60,30)"/>
+    <wire from="(230,40)" to="(250,40)"/>
+    <wire from="(210,30)" to="(230,30)"/>
+    <wire from="(230,60)" to="(250,60)"/>
+    <wire from="(210,80)" to="(230,80)"/>
+    <wire from="(100,90)" to="(180,90)"/>
+    <wire from="(230,60)" to="(230,80)"/>
+    <wire from="(40,80)" to="(80,80)"/>
+    <wire from="(140,20)" to="(180,20)"/>
+    <wire from="(80,40)" to="(180,40)"/>
+    <comp lib="1" loc="(140,20)" name="NOT Gate">
+      <a name="size" val="20"/>
+    </comp>
+    <comp lib="0" loc="(40,130)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="B"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="1" loc="(280,50)" name="OR Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="1" loc="(210,30)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="0" loc="(300,50)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="O"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="0" loc="(40,80)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="A"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="1" loc="(210,80)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="0" loc="(40,30)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="S"/>
+      <a name="labelloc" val="north"/>
+    </comp>
   </circuit>
 </project>
