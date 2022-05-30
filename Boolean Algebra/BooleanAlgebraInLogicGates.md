@@ -1,0 +1,72 @@
+# Конструиране на Logic Gate-ове:
+
+- Имаме случай, когато трябва да постигнем някаква дигитална логика.
+
+- Съответно в тези случай просто може да си направим една булева таблица на това, което искаме да постигнем.
+- Остава обаче въпроса, как може да сътворим електрическата верига, която да постигне очакваният от нас резултат?
+
+
+
+1. **Изкарваме си булевата таблица на това, което искаме да постигнем.**
+2. **Създаваме булевият израз от булевата таблица.**
+3. **Опростяваме създаденият булевият израз**
+4. **Конструираме електрическата верига**
+
+
+
+##### **Task 1**: Искаме да постигнем дигитален Switch, който да пропуска сигнали от A или B в зависимост от избора ни:
+
+
+
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531012003392.png" alt="image-20220531012003392" style="zoom:67%;" />
+
+1. **Изкарваме си булевата таблица на това, което искаме да постигнем:**
+
+| S (Select) | A    | B    | O    |
+| ---------- | ---- | ---- | ---- |
+| 0          | 0    | 0    | 0    |
+| 0          | 0    | 1    | 0    |
+| 0          | 1    | 0    | 1    |
+| 0          | 1    | 1    | 1    |
+| 1          | 0    | 0    | 0    |
+| 1          | 0    | 1    | 1    |
+| 1          | 1    | 0    | 0    |
+| 1          | 1    | 1    | 1    |
+
+2. **Създаваме булевият израз от булевата таблица:**
+
+- За всеки един ред, където **O** = **1 ** изписваме булевият израз, който го съставя:
+  $$
+  \\ \bar{S}.A.\bar{B}
+  \\ \bar{S}.A.B
+  \\ S.\bar{A}.B
+  \\ S.A.B
+  $$
+
+- Сега това вече може да го обърнем в един булев израз:
+
+$$
+\\ \bar{S}.A.\bar{B} +
+\bar{S}.A.B +
+S.\bar{A}.B + 
+S.A.B =
+O
+$$
+
+- Подготвям Logism:
+
+<img src="C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220528222918904.png" alt="image-20220528222918904" style="zoom: 80%;" />
+
+<img src="C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220528222927675.png" alt="image-20220528222927675" style="zoom:80%;" />
+
+<img src="C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220528222936683.png" alt="image-20220528222936683" style="zoom:80%;" />
+
+- `~S A ~B + ~S A B + S ~A B + S A B`
+
+- **Може и директно през Table да си зададем таблицата и да не обърщаме нищо в булеви изрази**
+
+- https://www.allaboutcircuits.com/textbook/digital/chpt-7/converting-truth-tables-boolean-expressions/?cb=1653762995
+- https://www.ilovefreesoftware.com/16/tutorial/how-to-convert-boolean-expression-to-logic-circuit.html
+- https://www.allaboutcircuits.com/textbook/digital/chpt-7/boolean-rules-for-simplification/
+- https://www.boolean-algebra.com/
+
