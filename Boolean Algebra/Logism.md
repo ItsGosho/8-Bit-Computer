@@ -29,7 +29,7 @@
 - **Build Circuit** и сме готови.
 - [**Note**] Чрез този метод автоматично получаваме булевият израз (опростен) в **Expression**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531020215086.png" alt="image-20220531020215086" style="zoom: 80%;" />
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531020238361.png" alt="image-20220531020238361" style="zoom:80%;" />
 
 2. **Създаване на електрическа схема за булев израз:**
 
@@ -59,4 +59,4 @@
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531020238361.png" alt="image-20220531020238361" style="zoom:80%;" />
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531020215086.png" alt="image-20220531020215086" style="zoom: 80%;" />

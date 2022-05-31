@@ -8,8 +8,8 @@
 
 
 1. **Изкарваме си булевата таблица на това, което искаме да постигнем.**
-2. **Създаваме булевият израз от булевата таблица.**
-3. **Опростяваме създаденият булевият израз**
+2. **Създаваме булевият израз от булевата таблица.** (Skip Logism)
+3. **Опростяваме създаденият булевият израз** (Skip Logism)
 4. **Конструираме електрическата верига**
 
 
@@ -53,19 +53,34 @@ S.A.B =
 O
 $$
 
-- Подготвям Logism:
+3. **Опростяваме създаденият булевият израз**
 
-<img src="C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220528222918904.png" alt="image-20220528222918904" style="zoom: 80%;" />
+- Може да го видим в **Simplification.md** как става. 
+- Изразите генерирани от такива таблици следват една и съща идея и метода по опростяването им е почти еднакво
 
-<img src="C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220528222927675.png" alt="image-20220528222927675" style="zoom:80%;" />
+3. **Конструираме електрическата верига**
 
-<img src="C:\Users\Gosho\AppData\Roaming\Typora\typora-user-images\image-20220528222936683.png" alt="image-20220528222936683" style="zoom:80%;" />
+- Ние си го правим, което е просто ако сме си опростили булевият израз
+- Използваме Logism, като там директно може да подадем израза или просто да попълним таблица, което елиминира **2** и 3 стъпка
 
-- `~S A ~B + ~S A B + S ~A B + S A B`
 
-- **Може и директно през Table да си зададем таблицата и да не обърщаме нищо в булеви изрази**
+
+**Не опростена:**
+
+
+
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531033915311.png" alt="image-20220531033915311" style="zoom:50%;" />
+
+**Опростена:**
+
+<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531034114275.png" alt="image-20220531034114275" style="zoom:67%;" />
+
+
+
+**Links:**
 
 - https://www.allaboutcircuits.com/textbook/digital/chpt-7/converting-truth-tables-boolean-expressions/?cb=1653762995
+
 - https://www.ilovefreesoftware.com/16/tutorial/how-to-convert-boolean-expression-to-logic-circuit.html
 - https://www.allaboutcircuits.com/textbook/digital/chpt-7/boolean-rules-for-simplification/
 - https://www.boolean-algebra.com/
