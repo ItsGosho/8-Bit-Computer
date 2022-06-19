@@ -10,3 +10,16 @@
 
 
 TODO: Tri-State за свързване към бус лентата и как ще справяме с негативните числа?
+
+
+
+- Комбиниране на два 4 битови събиратели за да получим 8 битов такъв:
+
+  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618165617458.png" alt="image-20220618165617458" style="zoom:80%;" />
+
+- Със Tri-states за буса:
+
+  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618171336030.png" alt="image-20220618171336030" style="zoom:80%;" />
+
+- Със логиката за изваждане:
+- <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618175539045.png" alt="image-20220618175539045"  />
