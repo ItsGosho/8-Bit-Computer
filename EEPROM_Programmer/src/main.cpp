@@ -34,7 +34,7 @@ void setup() {
 }
 
 void printRegisterData() {
-    char printBuffer[16];
+    char printBuffer[22];
 
     bool bit0 = digitalRead(SHIFT_REGISTER_D0_PIN);
     bool bit1 = digitalRead(SHIFT_REGISTER_D1_PIN);
@@ -45,13 +45,13 @@ void printRegisterData() {
     bool bit6 = digitalRead(SHIFT_REGISTER_D6_PIN);
     bool bit7 = digitalRead(SHIFT_REGISTER_D7_PIN);
 
-    sprintf(printBuffer, "%d %d %d %d %d %d %d %d", bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7);
+    sprintf(printBuffer, "%d %d %d %d %d %d %d %d - LSB", bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7);
     Serial.println(printBuffer);
 }
 
-void loop() {
+void writeBitToShiftRegister(const bool& bit) {
 
-    digitalWrite(SHIFT_REGISTER_SER_PIN, HIGH);
+    digitalWrite(SHIFT_REGISTER_SER_PIN, bit);
     delayMicroseconds(1);
 
     digitalWrite(SHIFT_REGISTER_SR_CLK_PIN, HIGH);
@@ -65,7 +65,30 @@ void loop() {
     digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
 
     delayMicroseconds(1);
+}
 
+void loop() {
+
+    //Fill with 0
+    for (int i = 0; i < 8; ++i) {
+        writeBitToShiftRegister(LOW);
+    }
+
+    delay(3000);
+
+    writeBitToShiftRegister(HIGH);
     printRegisterData();
-    delay(10000);
+    delay(3000);
+
+    writeBitToShiftRegister(HIGH);
+    printRegisterData();
+    delay(3000);
+
+    writeBitToShiftRegister(LOW);
+    printRegisterData();
+    delay(3000);
+
+    writeBitToShiftRegister(HIGH);
+    printRegisterData();
+    delay(3000);
 }
