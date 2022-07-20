@@ -34,7 +34,7 @@ void setup() {
 }
 
 void printRegisterData() {
-    char printBuffer[22];
+    char printBuffer[16];
 
     bool bit0 = digitalRead(SHIFT_REGISTER_D0_PIN);
     bool bit1 = digitalRead(SHIFT_REGISTER_D1_PIN);
@@ -45,7 +45,7 @@ void printRegisterData() {
     bool bit6 = digitalRead(SHIFT_REGISTER_D6_PIN);
     bool bit7 = digitalRead(SHIFT_REGISTER_D7_PIN);
 
-    sprintf(printBuffer, "%d %d %d %d %d %d %d %d - LSB", bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7);
+    sprintf(printBuffer, "%d %d %d %d %d %d %d %d", bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7);
     Serial.println(printBuffer);
 }
 
@@ -60,35 +60,55 @@ void writeBitToShiftRegister(const bool& bit) {
 
     delayMicroseconds(1);
 
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
+  /*  digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
     delayMicroseconds(1);
     digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
 
-    delayMicroseconds(1);
+    delayMicroseconds(1);*/
+}
+
+void clearShiftRegister() {
+    for (int i = 0; i < 8; ++i) {
+        writeBitToShiftRegister(LOW);
+    }
+}
+
+void test1() {
+    //Fill with 0
+    //delay(3000);
+
+    writeBitToShiftRegister(HIGH);
+    //printRegisterData();
+    //delay(3000);
+
+    writeBitToShiftRegister(HIGH);
+    //printRegisterData();
+    //delay(3000);
+
+    writeBitToShiftRegister(LOW);
+    //printRegisterData();
+    //delay(3000);
+
+    writeBitToShiftRegister(HIGH);
+    printRegisterData();
+    delay(1000);
 }
 
 void loop() {
 
-    //Fill with 0
-    for (int i = 0; i < 8; ++i) {
-        writeBitToShiftRegister(LOW);
-    }
+    //test1();
 
-    delay(3000);
+    clearShiftRegister();
+    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, 0b11010110);
 
-    writeBitToShiftRegister(HIGH);
+    digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
+    delayMicroseconds(1);
+    digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
+    delayMicroseconds(1);
+
     printRegisterData();
-    delay(3000);
+    delay(1000);
 
-    writeBitToShiftRegister(HIGH);
-    printRegisterData();
-    delay(3000);
+    //shiftOut(SHIFT_REGISTER_SER_PIN,)
 
-    writeBitToShiftRegister(LOW);
-    printRegisterData();
-    delay(3000);
-
-    writeBitToShiftRegister(HIGH);
-    printRegisterData();
-    delay(3000);
 }
