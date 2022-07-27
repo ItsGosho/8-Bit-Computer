@@ -106,6 +106,31 @@ void test(const int& address, const bool& outputEnable) {
     digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
 }
 
+/**
+ * We need to control a EEPROM (AT28C16), which has total of 21 pins:
+ * - 11 pins for the address
+ * - 8 pins for the data
+ * - 2 pins for controlling it
+ * We are using two shift registers. Each of them is 8 bit.
+ * That gives us total of 16 bits.
+ * The idea is to overcome the problem that Arduino Nano has only 12 digital pins.
+ * The shift registers are build using JK Flip Flops. You can store multiple bits in them.
+ * The ones that we are using (74HC595) need only 3 pins to be controlled.
+ * If we control them with the Arduino we lose 3 pins, but gain 5 more.
+ * If we chain two shift registers we lose 3 pins, but gain 13 more.
+ * - Note that these additional pins that we achieved with the shift register are perfect only for pins
+ * that doesn't require timing.
+ */
+
+struct ShiftRegisterData {
+    unsigned int address: 11; /*The address to be selected on the EEPROM*/
+    unsigned int oe: 1; /*If the output of the eeprom to be enabled*/
+};
+
+void shift16Bits() {
+
+}
+
 void loop() {
 
     //test1();
