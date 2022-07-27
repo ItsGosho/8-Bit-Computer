@@ -93,19 +93,6 @@ void test1() {
     delay(1000);
 }
 
-void test(const int& address, const bool& outputEnable) {
-    int shiftOutData = (outputEnable << 11) | address;
-
-    int msb = shiftOutData >> 8;
-    int lsb = shiftOutData & 0b0000000011111111;
-
-    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, msb);
-    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, lsb);
-
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
-}
-
 /**
  * We need to control a EEPROM (AT28C16), which has total of 21 pins:
  * - 11 pins for the address
@@ -122,14 +109,34 @@ void test(const int& address, const bool& outputEnable) {
  * that doesn't require timing.
  */
 
-struct ShiftRegisterData {
-    unsigned int address: 11; /*The address to be selected on the EEPROM*/
-    unsigned int oe: 1; /*If the output of the eeprom to be enabled*/
-};
+/**
+ * Will shift the bits to the 74HC595 shift register.
+ * We are using the Arduino's prebuild shift out function, but it is limited to shifting only 8 bits at a time.
+ * Thus we use it twice.
+ * The prebuild function will place each of the provided bits on the SER_PIN and clock the SR_CLK pin, which will store them.
+ * The shift register has two storages. Shift and Storage Register. The outputed bits from it are from the Storage Register.
+ * After storing the 16 bits in the shift register we clock the RCLK_PIN, which moves the stored bits in the Shift Register to the Storage Register.
+ */
+void shiftOutBits(const uint16_t& bits) {
+    uint8_t msb = bits >> 8;
+    uint8_t lsb = bits & 0b11111111;
 
-void shift16Bits() {
+    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, msb);
+    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, lsb);
 
+    digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
+    digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
 }
+
+/**
+ * Sets the address of the EEPROM and if the EEPROM's output will be enabled.
+ */
+void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
+    uint8_t shiftOutData = (outputEnable << 11) | address;
+
+    shiftOutBits(shiftOutData);
+}
+
 
 void loop() {
 
@@ -143,7 +150,7 @@ void loop() {
     digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);*/
 
     for (int i = 1; i <= 2047; ++i) {
-        test(i, true);
+        setEEPROMPins(i, true);
         delay(200);
     }
 
