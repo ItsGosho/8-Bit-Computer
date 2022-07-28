@@ -1,98 +1,5 @@
 #include <Arduino.h>
 
-//Pins on the Arduino Nano, that are connected to the corresponding Shift Register's Bits
-#define SHIFT_REGISTER_D0_PIN 2
-#define SHIFT_REGISTER_D1_PIN 3
-#define SHIFT_REGISTER_D2_PIN 4
-#define SHIFT_REGISTER_D3_PIN 5
-#define SHIFT_REGISTER_D4_PIN 6
-#define SHIFT_REGISTER_D5_PIN 7
-#define SHIFT_REGISTER_D6_PIN 8
-#define SHIFT_REGISTER_D7_PIN 9
-
-#define SHIFT_REGISTER_SER_PIN 2
-#define SHIFT_REGISTER_RCLK_PIN 3
-#define SHIFT_REGISTER_SR_CLK_PIN 4
-
-void setup() {
-    Serial.begin(9600);
-    Serial.println("EEPROM Start!");
-    //pinMode(SHIFT_REGISTER_D0_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D1_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D2_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D3_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D4_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D5_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D6_PIN, INPUT);
-    //pinMode(SHIFT_REGISTER_D7_PIN, INPUT);
-
-    pinMode(SHIFT_REGISTER_SER_PIN, OUTPUT);
-    //pinMode(SHIFT_REGISTER_OE_PIN, OUTPUT);
-    pinMode(SHIFT_REGISTER_RCLK_PIN, OUTPUT);
-    pinMode(SHIFT_REGISTER_SR_CLK_PIN, OUTPUT);
-}
-
-void printRegisterData() {
-    char printBuffer[16];
-
-    bool bit0 = digitalRead(SHIFT_REGISTER_D0_PIN);
-    bool bit1 = digitalRead(SHIFT_REGISTER_D1_PIN);
-    bool bit2 = digitalRead(SHIFT_REGISTER_D2_PIN);
-    bool bit3 = digitalRead(SHIFT_REGISTER_D3_PIN);
-    bool bit4 = digitalRead(SHIFT_REGISTER_D4_PIN);
-    bool bit5 = digitalRead(SHIFT_REGISTER_D5_PIN);
-    bool bit6 = digitalRead(SHIFT_REGISTER_D6_PIN);
-    bool bit7 = digitalRead(SHIFT_REGISTER_D7_PIN);
-
-    sprintf(printBuffer, "%d %d %d %d %d %d %d %d", bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7);
-    Serial.println(printBuffer);
-}
-
-void writeBitToShiftRegister(const bool& bit) {
-
-    digitalWrite(SHIFT_REGISTER_SER_PIN, bit);
-    delayMicroseconds(1);
-
-    digitalWrite(SHIFT_REGISTER_SR_CLK_PIN, HIGH);
-    delayMicroseconds(1);
-    digitalWrite(SHIFT_REGISTER_SR_CLK_PIN, LOW);
-
-    delayMicroseconds(1);
-
-    /*  digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
-      delayMicroseconds(1);
-      digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
-
-      delayMicroseconds(1);*/
-}
-
-void clearShiftRegister() {
-    for (int i = 0; i < 8; ++i) {
-        writeBitToShiftRegister(LOW);
-    }
-}
-
-void test1() {
-    //Fill with 0
-    //delay(3000);
-
-    writeBitToShiftRegister(HIGH);
-    //printRegisterData();
-    //delay(3000);
-
-    writeBitToShiftRegister(HIGH);
-    //printRegisterData();
-    //delay(3000);
-
-    writeBitToShiftRegister(LOW);
-    //printRegisterData();
-    //delay(3000);
-
-    writeBitToShiftRegister(HIGH);
-    printRegisterData();
-    delay(1000);
-}
-
 /**
  * We need to control a EEPROM (AT28C16), which has total of 21 pins:
  * - 11 pins for the address
@@ -108,6 +15,25 @@ void test1() {
  * - Note that these additional pins that we achieved with the shift register are perfect only for pins
  * that doesn't require timing.
  */
+
+#define EEPROM_IO_START_PIN 5
+#define EEPROM_IO_END_PIN 12
+#define EEPROM_WE_PIN 13
+
+#define SHIFT_REGISTER_SER_PIN 2
+#define SHIFT_REGISTER_RCLK_PIN 3
+#define SHIFT_REGISTER_SR_CLK_PIN 4
+
+void setup() {
+    Serial.begin(9600);
+    Serial.println("EEPROM Start!");
+
+    pinMode(SHIFT_REGISTER_SER_PIN, OUTPUT);
+    digitalWrite(EEPROM_WE_PIN, HIGH);
+    pinMode(EEPROM_WE_PIN, INPUT);
+    pinMode(SHIFT_REGISTER_RCLK_PIN, OUTPUT);
+    pinMode(SHIFT_REGISTER_SR_CLK_PIN, OUTPUT);
+}
 
 /**
  * Will shift the bits to the 74HC595 shift register.
@@ -132,11 +58,45 @@ void shiftOutBits(const uint16_t& bits) {
  * Sets the address of the EEPROM and if the EEPROM's output will be enabled.
  */
 void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
-    uint8_t shiftOutData = (outputEnable << 11) | address;
+    uint16_t shiftOutData = (!outputEnable << 11) | address;
 
     shiftOutBits(shiftOutData);
 }
 
+void printEEPROMAddressData(const uint16_t address) {
+
+    setEEPROMPins(address, true);
+
+    char printBuffer[33];
+    bool dataBits[8];
+
+    uint8_t dataBitsIndex = 0;
+    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
+        pinMode(eepromPin, INPUT);
+        dataBits[dataBitsIndex] = digitalRead(eepromPin);
+        dataBitsIndex++;
+    }
+
+    sprintf(printBuffer, "Address: %d Bits %d %d %d %d %d %d %d %d", address, dataBits[0], dataBits[1], dataBits[2], dataBits[3], dataBits[4], dataBits[5], dataBits[6], dataBits[7]);
+    Serial.println(printBuffer);
+}
+
+void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
+
+    setEEPROMPins(address, false);
+
+    uint8_t bitIndex = 0;
+    for (uint8_t eepromPin = EEPROM_IO_END_PIN; eepromPin >= EEPROM_IO_START_PIN; --eepromPin) {
+        pinMode(eepromPin, OUTPUT);
+        digitalWrite(eepromPin, ((0b1 << bitIndex) & data) > 0);
+        bitIndex++;
+    }
+
+    digitalWrite(EEPROM_WE_PIN, LOW);
+    delayMicroseconds(1);
+    digitalWrite(EEPROM_WE_PIN, HIGH);
+    delay(10);
+}
 
 void loop() {
 
@@ -149,11 +109,29 @@ void loop() {
     digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
     digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);*/
 
-    for (int i = 1; i <= 2047; ++i) {
-        setEEPROMPins(i, true);
-        delay(200);
-    }
+    /* for (int i = 1; i <= 2047; ++i) {
+         setEEPROMPins(i, true);
+         delay(200);
+     }*/
 
+
+    setEEPROMAddressData(2, 0b11001101);
+    delay(2000);
+    printEEPROMAddressData(2);
+    printEEPROMAddressData(2);
+    printEEPROMAddressData(2);
+
+  /*  setEEPROMAddressData(1, 0b01110000);
+    delay(2000);
+    printEEPROMAddressData(1);
+
+    delay(2000);
+
+    printEEPROMAddressData(2);
+
+    delay(2000);
+
+    printEEPROMAddressData(1);*/
 
     //printRegisterData();
     delay(1000000);
