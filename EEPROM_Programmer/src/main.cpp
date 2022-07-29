@@ -28,18 +28,22 @@
 #define US 2
 
 void delay(const unsigned int& timeValue, const int& timeUnit);
+
 void clockPin(const uint8_t& pin, const bool& val, const unsigned int& timeValue, const int& timeUnit);
+
 void clockPin(const uint8_t& pin, const bool& val);
+
+template<size_t N>
+void pinModes(int (& pins)[N], const bool& mode);
 
 void setup() {
     Serial.begin(9600);
     Serial.println("EEPROM Start!");
 
     digitalWrite(EEPROM_WE_PIN, HIGH);
-    pinMode(EEPROM_WE_PIN, OUTPUT);
-    pinMode(SHIFT_REGISTER_SER_PIN, OUTPUT);
-    pinMode(SHIFT_REGISTER_RCLK_PIN, OUTPUT);
-    pinMode(SHIFT_REGISTER_SR_CLK_PIN, OUTPUT);
+
+    int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
+    pinModes(outputPins, OUTPUT);
 }
 
 /**
@@ -117,10 +121,20 @@ void loop() {
     printEEPROMAddressData(3);
 
     delay(1000000);
-
 }
 
 /*---------------- Utils ----------------*/
+
+/**
+ * Will set all of the provided @param pins to the given @param mode
+ * @param mode Can be 1 (HIGH) or 0 (LOW)
+ */
+template<size_t N>
+void pinModes(int (& pins)[N], const bool& mode) {
+
+    for (size_t i = 0; i < N; ++i)
+        pinMode(pins[i], mode);
+}
 
 /**
  * Will block the execution of the program for the given time.
