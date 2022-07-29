@@ -24,6 +24,8 @@
 #define SHIFT_REGISTER_RCLK_PIN 3
 #define SHIFT_REGISTER_SR_CLK_PIN 4
 
+#define BAUD_RATE 9600
+
 #define MS 1
 #define US 2
 
@@ -37,7 +39,7 @@ template<size_t N>
 void pinModes(int (& pins)[N], const bool& mode);
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(BAUD_RATE);
     Serial.println("EEPROM Start!");
 
     digitalWrite(EEPROM_WE_PIN, HIGH);
