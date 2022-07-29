@@ -77,10 +77,6 @@ void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
 
 void printEEPROMAddressData(const uint16_t address) {
 
-    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
-        pinMode(eepromPin, INPUT);
-    }
-
     setEEPROMPins(address, true);
 
     char printBuffer[33];
@@ -114,7 +110,7 @@ void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 }
 
 void loop() {
-    setEEPROMAddressData(1, 0b10000011);
+    setEEPROMAddressData(1, 0b11000011);
     setEEPROMAddressData(2, 0b00011110);
     setEEPROMAddressData(3, 0b01010111);
 
@@ -129,7 +125,7 @@ void loop() {
 
 /**
  * Will set all of the provided @param pins to the given @param mode
- * @param mode Can be 1 (HIGH) or 0 (LOW)
+ * @param mode Can be 0 (INPUT) or 1 (OUTPUT)
  */
 template<size_t N>
 void pinModes(int (& pins)[N], const bool& mode) {
