@@ -30,7 +30,7 @@ void setup() {
 
     pinMode(SHIFT_REGISTER_SER_PIN, OUTPUT);
     digitalWrite(EEPROM_WE_PIN, HIGH);
-    pinMode(EEPROM_WE_PIN, INPUT);
+    pinMode(EEPROM_WE_PIN, OUTPUT);
     pinMode(SHIFT_REGISTER_RCLK_PIN, OUTPUT);
     pinMode(SHIFT_REGISTER_SR_CLK_PIN, OUTPUT);
 }
@@ -64,6 +64,10 @@ void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
 }
 
 void printEEPROMAddressData(const uint16_t address) {
+
+    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
+        pinMode(eepromPin, INPUT);
+    }
 
     setEEPROMPins(address, true);
 
@@ -115,22 +119,31 @@ void loop() {
      }*/
 
 
-    setEEPROMAddressData(1, 0b11001101);
-    printEEPROMAddressData(1);
-    printEEPROMAddressData(1);
-    printEEPROMAddressData(1);
+    //setEEPROMAddressData(2, 0b01010000);
 
-    /*  setEEPROMAddressData(1, 0b01110000);
-      delay(2000);
-      printEEPROMAddressData(1);
+   /* digitalWrite(EEPROM_IO_START_PIN, 1);
+    pinMode(EEPROM_IO_START_PIN, OUTPUT);*/
 
-      delay(2000);
+    setEEPROMAddressData(0, 0b10000001);
+    /*delay(5000);
+    setEEPROMPins(1, true);
+    delay(5000);
+    setEEPROMPins(4, true);*/
+    printEEPROMAddressData(0);
+    printEEPROMAddressData(2);
+    printEEPROMAddressData(3);
+    printEEPROMAddressData(2);
 
-      printEEPROMAddressData(2);
 
-      delay(2000);
+    /*   setEEPROMAddressData(1, 0b0111);
 
-      printEEPROMAddressData(1);*/
+
+       printEEPROMAddressData(1);
+
+
+       printEEPROMAddressData(2);
+       printEEPROMAddressData(3);*/
+
 
     //printRegisterData();
     delay(1000000);

@@ -24,13 +24,20 @@
 #define SHIFT_REGISTER_RCLK_PIN 3
 #define SHIFT_REGISTER_SR_CLK_PIN 4
 
+#define MS 1
+#define US 2
+
+void delay(const unsigned int& timeValue, const int& timeUnit);
+void clockPin(const uint8_t& pin, const bool& val, const unsigned int& timeValue, const int& timeUnit);
+void clockPin(const uint8_t& pin, const bool& val);
+
 void setup() {
     Serial.begin(9600);
     Serial.println("EEPROM Start!");
 
-    pinMode(SHIFT_REGISTER_SER_PIN, OUTPUT);
     digitalWrite(EEPROM_WE_PIN, HIGH);
-    pinMode(EEPROM_WE_PIN, INPUT);
+    pinMode(EEPROM_WE_PIN, OUTPUT);
+    pinMode(SHIFT_REGISTER_SER_PIN, OUTPUT);
     pinMode(SHIFT_REGISTER_RCLK_PIN, OUTPUT);
     pinMode(SHIFT_REGISTER_SR_CLK_PIN, OUTPUT);
 }
@@ -50,8 +57,7 @@ void shiftOutBits(const uint16_t& bits) {
     shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, msb);
     shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, lsb);
 
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);
+    clockPin(SHIFT_REGISTER_RCLK_PIN, HIGH);
 }
 
 /**
@@ -64,6 +70,10 @@ void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
 }
 
 void printEEPROMAddressData(const uint16_t address) {
+
+    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
+        pinMode(eepromPin, INPUT);
+    }
 
     setEEPROMPins(address, true);
 
@@ -83,6 +93,7 @@ void printEEPROMAddressData(const uint16_t address) {
 
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 
+
     setEEPROMPins(address, false);
 
     uint8_t bitIndex = 0;
@@ -92,49 +103,55 @@ void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
         bitIndex++;
     }
 
-    digitalWrite(EEPROM_WE_PIN, LOW);
-    delayMicroseconds(1);
-    digitalWrite(EEPROM_WE_PIN, HIGH);
+    clockPin(EEPROM_WE_PIN, LOW, 1, US);
     delay(10);
 }
 
 void loop() {
+    setEEPROMAddressData(1, 0b10000011);
+    setEEPROMAddressData(2, 0b00011110);
+    setEEPROMAddressData(3, 0b01010111);
 
-    //test1();
-
-    //clearShiftRegister();
-/*    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, 0b111);
-    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, 0b11111111);
-    //shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, 0b11010110);
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, HIGH);
-    digitalWrite(SHIFT_REGISTER_RCLK_PIN, LOW);*/
-
-    /* for (int i = 1; i <= 2047; ++i) {
-         setEEPROMPins(i, true);
-         delay(200);
-     }*/
-
-
-    setEEPROMAddressData(1, 0b11001101);
     printEEPROMAddressData(1);
-    printEEPROMAddressData(1);
-    printEEPROMAddressData(1);
+    printEEPROMAddressData(2);
+    printEEPROMAddressData(3);
 
-    /*  setEEPROMAddressData(1, 0b01110000);
-      delay(2000);
-      printEEPROMAddressData(1);
-
-      delay(2000);
-
-      printEEPROMAddressData(2);
-
-      delay(2000);
-
-      printEEPROMAddressData(1);*/
-
-    //printRegisterData();
     delay(1000000);
 
-    //shiftOut(SHIFT_REGISTER_SER_PIN,)
+}
 
+/*---------------- Utils ----------------*/
+
+/**
+ * Will block the execution of the program for the given time.
+ * Time unit can be 1 (MS) or 2 (US). There are macros for easier use.
+ */
+void delay(const unsigned int& timeValue, const int& timeUnit) {
+    switch (timeUnit) {
+        case MS:
+            return delay(timeValue);
+        case US:
+            return delayMicroseconds(timeValue);
+    }
+}
+
+/**
+ * Will put the pin LOW or HIGH depending on the @param val for the given time @param timeValue then return it to the opposite @param val
+ * Use case for example is when you need to hold a given pin LOW for given time so that the chip can complete given action.
+ * @param timeUnit Can be 1 (MS) or 2(US)
+ */
+void clockPin(const uint8_t& pin, const bool& val, const unsigned int& timeValue, const int& timeUnit) {
+
+    digitalWrite(pin, val);
+    delay(timeValue, timeUnit);
+    digitalWrite(pin, !val);
+}
+
+/**
+ * Will put the pin LOW or HIGH depending on the @param val and then return it to the opposite @param val
+ * Use case for example is when some action in a chip triggers on the rising edge of a signal and thus you need to bring it LOW then HIGH again
+ */
+void clockPin(const uint8_t& pin, const bool& val) {
+    digitalWrite(pin, val);
+    digitalWrite(pin, !val);
 }
