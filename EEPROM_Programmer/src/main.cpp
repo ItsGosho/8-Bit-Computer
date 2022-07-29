@@ -75,6 +75,26 @@ void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
     shiftOutBits(shiftOutData);
 }
 
+uint8_t readEEPROMAddress(const uint16_t address) {
+
+    setEEPROMPins(address, true);
+
+    uint8_t byte = 0b00000000;
+
+    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
+        pinMode(eepromPin, INPUT);
+
+        bool readBit = digitalRead(eepromPin);
+
+        if (readBit)
+            byte = (byte << 1) | 0b1;
+        else
+            byte = byte << 1;
+    }
+
+    return byte;
+}
+
 void printEEPROMAddressData(const uint16_t address) {
 
     setEEPROMPins(address, true);
@@ -110,13 +130,16 @@ void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 }
 
 void loop() {
-    setEEPROMAddressData(1, 0b11000011);
-    setEEPROMAddressData(2, 0b00011110);
-    setEEPROMAddressData(3, 0b01010111);
+    setEEPROMAddressData(1, 0b00000001);
+    setEEPROMAddressData(2, 0b00000010);
+    setEEPROMAddressData(3, 0b11001010);
 
-    printEEPROMAddressData(1);
+    /*printEEPROMAddressData(1);
     printEEPROMAddressData(2);
-    printEEPROMAddressData(3);
+    printEEPROMAddressData(3);*/
+    Serial.println(readEEPROMAddress(1));
+    Serial.println(readEEPROMAddress(2));
+    Serial.println(readEEPROMAddress(3));
 
     delay(1000000);
 }
