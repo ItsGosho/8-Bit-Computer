@@ -29,6 +29,10 @@
 #define MS 1
 #define US 2
 
+#define DECIMAL 10
+#define HEX 16
+#define BINARY 2
+
 void delay(const unsigned int& timeValue, const int& timeUnit);
 
 void clockPin(const uint8_t& pin, const bool& val, const unsigned int& timeValue, const int& timeUnit);
@@ -95,22 +99,43 @@ uint8_t readEEPROMAddress(const uint16_t address) {
     return byte;
 }
 
-void printEEPROMAddressData(const uint16_t address) {
+void printEEPROMAddressDecimal(const uint16_t address) {
+    uint8_t addressData = readEEPROMAddress(address);
 
-    setEEPROMPins(address, true);
+    char printBuffer[20];
+    sprintf(printBuffer, "Address: %d Value: %d", address, addressData);
+    Serial.println(printBuffer);
+}
 
-    char printBuffer[33];
-    bool dataBits[8];
+void printEEPROMAddressBinary(const uint16_t address) {
 
-    uint8_t dataBitsIndex = 0;
-    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
-        pinMode(eepromPin, INPUT);
-        dataBits[dataBitsIndex] = digitalRead(eepromPin);
-        dataBitsIndex++;
+    uint8_t addressData = readEEPROMAddress(address);
+
+    bool dataBits[8] = {};
+
+    for (int i = 0; i < 8; ++i)
+        dataBits[i] = (0b1 << (7 - i)) & addressData;
+
+    char printBuffer[34];
+    sprintf(printBuffer, "Address: %d Value: %d %d %d %d %d %d %d %d", address, dataBits[0], dataBits[1], dataBits[2], dataBits[3], dataBits[4], dataBits[5], dataBits[6], dataBits[7]);
+    Serial.println(printBuffer);
+}
+
+void printEEPROMAddress(const uint16_t address, const uint8_t format) {
+
+    switch (format) {
+
+        case BINARY:
+            return printEEPROMAddressBinary(address);
+
+        case DECIMAL:
+            return printEEPROMAddressDecimal(address);
+
+        case HEX:
+
+            break;
     }
 
-    sprintf(printBuffer, "Address: %d Bits %d %d %d %d %d %d %d %d", address, dataBits[0], dataBits[1], dataBits[2], dataBits[3], dataBits[4], dataBits[5], dataBits[6], dataBits[7]);
-    Serial.println(printBuffer);
 }
 
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
@@ -134,12 +159,9 @@ void loop() {
     setEEPROMAddressData(2, 0b00000010);
     setEEPROMAddressData(3, 0b11001010);
 
-    /*printEEPROMAddressData(1);
-    printEEPROMAddressData(2);
-    printEEPROMAddressData(3);*/
-    Serial.println(readEEPROMAddress(1));
-    Serial.println(readEEPROMAddress(2));
-    Serial.println(readEEPROMAddress(3));
+    printEEPROMAddress(1, BINARY); //1
+    printEEPROMAddress(2, BINARY); //2
+    printEEPROMAddress(3, BINARY); //202
 
     delay(1000000);
 }
