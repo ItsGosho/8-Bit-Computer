@@ -42,6 +42,23 @@ void clockPin(const uint8_t& pin, const bool& val);
 template<size_t N>
 void pinModes(int (& pins)[N], const bool& mode);
 
+void setShiftRegisterBits(const uint16_t& bits);
+
+void setEEPROMPins(const uint16_t& address, const bool& outputEnable);
+
+uint8_t readEEPROMAddress(const uint16_t& address);
+
+void printEEPROMAddressBinary(const uint16_t& address);
+
+void printEEPROMAddressDecimal(const uint16_t& address);
+
+void printEEPROMAddressHex(const uint16_t& address);
+
+void printEEPROMAddress(const uint16_t& address, const uint8_t& format);
+
+void setEEPROMAddressData(const uint16_t& address, const uint8_t& data);
+
+
 void setup() {
     Serial.begin(BAUD_RATE);
     Serial.println("EEPROM Start!");
@@ -52,6 +69,18 @@ void setup() {
     pinModes(outputPins, OUTPUT);
 }
 
+void loop() {
+    setEEPROMAddressData(1, 0b00000001);
+    setEEPROMAddressData(2, 0b00000010);
+    setEEPROMAddressData(3, 0b11001010);
+
+    printEEPROMAddress(1, HEX); //1
+    printEEPROMAddress(2, HEX); //2
+    printEEPROMAddress(3, HEX); //202
+
+    delay(1000000);
+}
+
 /**
  * Will shift the bits to the 74HC595 shift register.
  * We are using the Arduino's prebuild shift out function, but it is limited to shifting only 8 bits at a time.
@@ -60,7 +89,7 @@ void setup() {
  * The shift register has two storages. Shift and Storage Register. The outputed bits from it are from the Storage Register.
  * After storing the 16 bits in the shift register we clock the RCLK_PIN, which moves the stored bits in the Shift Register to the Storage Register.
  */
-void shiftOutBits(const uint16_t& bits) {
+void setShiftRegisterBits(const uint16_t& bits) {
     uint8_t msb = bits >> 8;
     uint8_t lsb = bits & 0b11111111;
 
@@ -76,10 +105,10 @@ void shiftOutBits(const uint16_t& bits) {
 void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
     uint16_t shiftOutData = (!outputEnable << 11) | address;
 
-    shiftOutBits(shiftOutData);
+    setShiftRegisterBits(shiftOutData);
 }
 
-uint8_t readEEPROMAddress(const uint16_t address) {
+uint8_t readEEPROMAddress(const uint16_t& address) {
 
     setEEPROMPins(address, true);
 
@@ -99,7 +128,7 @@ uint8_t readEEPROMAddress(const uint16_t address) {
     return byte;
 }
 
-void printEEPROMAddressBinary(const uint16_t address) {
+void printEEPROMAddressBinary(const uint16_t& address) {
 
     uint8_t addressData = readEEPROMAddress(address);
 
@@ -113,7 +142,7 @@ void printEEPROMAddressBinary(const uint16_t address) {
     Serial.println(printBuffer);
 }
 
-void printEEPROMAddressDecimal(const uint16_t address) {
+void printEEPROMAddressDecimal(const uint16_t& address) {
     uint8_t addressData = readEEPROMAddress(address);
 
     char printBuffer[20];
@@ -121,7 +150,7 @@ void printEEPROMAddressDecimal(const uint16_t address) {
     Serial.println(printBuffer);
 }
 
-void printEEPROMAddressHex(const uint16_t address) {
+void printEEPROMAddressHex(const uint16_t& address) {
     uint8_t addressData = readEEPROMAddress(address);
 
     char printBuffer[20];
@@ -130,7 +159,7 @@ void printEEPROMAddressHex(const uint16_t address) {
 }
 
 
-void printEEPROMAddress(const uint16_t address, const uint8_t format) {
+void printEEPROMAddress(const uint16_t& address, const uint8_t& format) {
 
     switch (format) {
 
@@ -160,18 +189,6 @@ void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 
     clockPin(EEPROM_WE_PIN, LOW, 1, US);
     delay(10);
-}
-
-void loop() {
-    setEEPROMAddressData(1, 0b00000001);
-    setEEPROMAddressData(2, 0b00000010);
-    setEEPROMAddressData(3, 0b11001010);
-
-    printEEPROMAddress(1, HEX); //1
-    printEEPROMAddress(2, HEX); //2
-    printEEPROMAddress(3, HEX); //202
-
-    delay(1000000);
 }
 
 /*---------------- Utils ----------------*/
