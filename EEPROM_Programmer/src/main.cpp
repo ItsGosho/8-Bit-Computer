@@ -99,14 +99,6 @@ uint8_t readEEPROMAddress(const uint16_t address) {
     return byte;
 }
 
-void printEEPROMAddressDecimal(const uint16_t address) {
-    uint8_t addressData = readEEPROMAddress(address);
-
-    char printBuffer[20];
-    sprintf(printBuffer, "Address: %d Value: %d", address, addressData);
-    Serial.println(printBuffer);
-}
-
 void printEEPROMAddressBinary(const uint16_t address) {
 
     uint8_t addressData = readEEPROMAddress(address);
@@ -121,6 +113,23 @@ void printEEPROMAddressBinary(const uint16_t address) {
     Serial.println(printBuffer);
 }
 
+void printEEPROMAddressDecimal(const uint16_t address) {
+    uint8_t addressData = readEEPROMAddress(address);
+
+    char printBuffer[20];
+    sprintf(printBuffer, "Address: %d Value: %d", address, addressData);
+    Serial.println(printBuffer);
+}
+
+void printEEPROMAddressHex(const uint16_t address) {
+    uint8_t addressData = readEEPROMAddress(address);
+
+    char printBuffer[20];
+    sprintf(printBuffer, "Address: %d Value: %X", address, addressData);
+    Serial.println(printBuffer);
+}
+
+
 void printEEPROMAddress(const uint16_t address, const uint8_t format) {
 
     switch (format) {
@@ -132,8 +141,7 @@ void printEEPROMAddress(const uint16_t address, const uint8_t format) {
             return printEEPROMAddressDecimal(address);
 
         case HEX:
-
-            break;
+            return printEEPROMAddressHex(address);
     }
 
 }
@@ -159,9 +167,9 @@ void loop() {
     setEEPROMAddressData(2, 0b00000010);
     setEEPROMAddressData(3, 0b11001010);
 
-    printEEPROMAddress(1, BINARY); //1
-    printEEPROMAddress(2, BINARY); //2
-    printEEPROMAddress(3, BINARY); //202
+    printEEPROMAddress(1, HEX); //1
+    printEEPROMAddress(2, HEX); //2
+    printEEPROMAddress(3, HEX); //202
 
     delay(1000000);
 }
