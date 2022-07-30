@@ -33,6 +33,10 @@
 #define HEX 16
 #define BINARY 2
 
+void digitalWriteBetween(const unsigned int& startPin, const unsigned int& endPin, const unsigned int& value);
+
+unsigned int digitalReadBetween(const unsigned int& startPin, const unsigned int& endPin);
+
 void delay(const unsigned int& timeValue, const int& timeUnit);
 
 void clockPin(const uint8_t& pin, const bool& val, const unsigned int& timeValue, const int& timeUnit);
@@ -74,9 +78,9 @@ void loop() {
     setEEPROMAddressData(2, 0b00000010);
     setEEPROMAddressData(3, 0b11001010);
 
-    printEEPROMAddress(1, HEX); //1
-    printEEPROMAddress(2, HEX); //2
-    printEEPROMAddress(3, HEX); //202
+    printEEPROMAddress(1, BINARY); //1
+    printEEPROMAddress(2, BINARY); //2
+    printEEPROMAddress(3, BINARY); //202
 
     delay(1000000);
 }
@@ -112,20 +116,7 @@ uint8_t readEEPROMAddress(const uint16_t& address) {
 
     setEEPROMPins(address, true);
 
-    uint8_t byte = 0b00000000;
-
-    for (uint8_t eepromPin = EEPROM_IO_START_PIN; eepromPin <= EEPROM_IO_END_PIN; ++eepromPin) {
-        pinMode(eepromPin, INPUT);
-
-        bool readBit = digitalRead(eepromPin);
-
-        if (readBit)
-            byte = (byte << 1) | 0b1;
-        else
-            byte = byte << 1;
-    }
-
-    return byte;
+    return digitalReadBetween(EEPROM_IO_START_PIN, EEPROM_IO_END_PIN);
 }
 
 void printEEPROMAddressBinary(const uint16_t& address) {
@@ -177,21 +168,68 @@ void printEEPROMAddress(const uint16_t& address, const uint8_t& format) {
 
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 
-
     setEEPROMPins(address, false);
 
-    uint8_t bitIndex = 0;
-    for (uint8_t eepromPin = EEPROM_IO_END_PIN; eepromPin >= EEPROM_IO_START_PIN; --eepromPin) {
-        pinMode(eepromPin, OUTPUT);
-        digitalWrite(eepromPin, ((0b1 << bitIndex) & data) > 0);
-        bitIndex++;
-    }
+    digitalWriteBetween(EEPROM_IO_START_PIN, EEPROM_IO_END_PIN, data);
 
     clockPin(EEPROM_WE_PIN, LOW, 1, US);
     delay(10);
 }
 
 /*---------------- Utils ----------------*/
+
+/**
+ * Will read each pin between the given ones and from the bits construct a integer.
+ * The function is extremely useful, when you have multiple I/O pins connected sequentially to arduino and you want to read bits from them.
+ *
+ * Example:
+ *
+ * startPin: 5
+ * endPin: 12
+ * Current Pin State: pin:5 (HIGH) pin: 6 (HIGH) pin: 7 (LOW) pin: 8 (LOW) pin: 9 (HIGH) pin: 10 (LOW) pin: 11 (HIGH) pin: 12 (LOW)
+ *
+ * Integer to be returned: 202 (11001010 in binary)
+ */
+unsigned int digitalReadBetween(const unsigned int& startPin, const unsigned int& endPin) {
+
+    unsigned int data = 0;
+
+    for (unsigned int pin = startPin; pin <= endPin; ++pin) {
+        pinMode(pin, INPUT);
+
+        bool readBit = digitalRead(pin);
+
+        if (readBit)
+            data = (data << 1) | 0b1;
+        else
+            data = data << 1;
+    }
+
+    return data;
+}
+
+/**
+ * Will set each pin between the given ones to the bit, which is position relative to the value
+ * The function is extremely useful, when you have multiple I/O pins connected sequentially to arduino and you want to set bits on them.
+ *
+ * Example:
+ *
+ * startPin: 5
+ * endPin: 12
+ * value: 0b11001010
+ *
+ * Result Pins State: pin:5 (HIGH) pin: 6 (HIGH) pin: 7 (LOW) pin: 8 (LOW) pin: 9 (HIGH) pin: 10 (LOW) pin: 11 (HIGH) pin: 12 (LOW)
+ */
+void digitalWriteBetween(const unsigned int& startPin, const unsigned int& endPin, const unsigned int& value) {
+
+    unsigned int bitIndex = 0;
+
+    for (unsigned int pin = endPin; pin >= startPin; --pin) {
+        pinMode(pin, OUTPUT);
+        digitalWrite(pin, ((0b1 << bitIndex) & value) > 0);
+        bitIndex++;
+    }
+}
 
 /**
  * Will set all of the provided @param pins to the given @param mode
