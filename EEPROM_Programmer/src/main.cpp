@@ -62,6 +62,7 @@ void printEEPROMAddress(const uint16_t& address, const uint8_t& format);
 
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data);
 
+void programEEPROM3BitsSegmentDecoder();
 
 void setup() {
     Serial.begin(BAUD_RATE);
@@ -71,18 +72,33 @@ void setup() {
 
     int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
     pinModes(outputPins, OUTPUT);
+
+    programEEPROM3BitsSegmentDecoder();
 }
 
 void loop() {
-    setEEPROMAddressData(1, 0b00000001);
-    setEEPROMAddressData(2, 0b00000010);
-    setEEPROMAddressData(3, 0b11001010);
+    /*   setEEPROMAddressData(1, 0b00000001);
+       setEEPROMAddressData(2, 0b00000010);
+       setEEPROMAddressData(3, 0b11001010);
 
-    printEEPROMAddress(1, BINARY); //1
-    printEEPROMAddress(2, BINARY); //2
-    printEEPROMAddress(3, BINARY); //202
+       printEEPROMAddress(1, BINARY); //1
+       printEEPROMAddress(2, BINARY); //2
+       printEEPROMAddress(3, BINARY); //202
 
-    delay(1000000);
+       delay(1000000);*/
+}
+
+void programEEPROM3BitsSegmentDecoder() {
+    Serial.println("Programming EEPROM as decoder for 3 bit to display decoder.");
+    setEEPROMAddressData(0, 0b01111110);
+    setEEPROMAddressData(1, 0b00010010);
+    setEEPROMAddressData(2, 0b10111100);
+    setEEPROMAddressData(3, 0b10110110);
+    setEEPROMAddressData(4, 0b11010010);
+    setEEPROMAddressData(5, 0b11100110);
+    setEEPROMAddressData(6, 0b11101110);
+    setEEPROMAddressData(7, 0b10110010);
+    Serial.println("Programmed EEPROM as decoder for 3 bit to display decoder.");
 }
 
 /**
@@ -165,6 +181,7 @@ void printEEPROMAddress(const uint16_t& address, const uint8_t& format) {
     }
 
 }
+
 
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 
