@@ -99,10 +99,10 @@ void programEEPROM3BitsSegmentDecoder() {
     setEEPROMAddressData(4, 0b11010010);
     setEEPROMAddressData(5, 0b11100110);
     setEEPROMAddressData(6, 0b11101110);
-    setEEPROMAddressData(7, 0b10110010);
+    setEEPROMAddressData(7, 0b00110010);
     Serial.println("Programmed EEPROM as decoder for 3 bit to display decoder.");
 
-    printEEPROMAddress(0, 7, BINARY);
+    //printEEPROMAddress(0, 7, BINARY);
 }
 
 /**
