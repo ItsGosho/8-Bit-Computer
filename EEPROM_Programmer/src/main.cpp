@@ -60,6 +60,8 @@ void printEEPROMAddressHex(const uint16_t& address);
 
 void printEEPROMAddress(const uint16_t& address, const uint8_t& format);
 
+void printEEPROMAddress(const uint16_t& from, const uint16_t& to, const uint8_t& format);
+
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data);
 
 void programEEPROM3BitsSegmentDecoder();
@@ -99,6 +101,8 @@ void programEEPROM3BitsSegmentDecoder() {
     setEEPROMAddressData(6, 0b11101110);
     setEEPROMAddressData(7, 0b10110010);
     Serial.println("Programmed EEPROM as decoder for 3 bit to display decoder.");
+
+    printEEPROMAddress(0, 7, BINARY);
 }
 
 /**
@@ -182,6 +186,12 @@ void printEEPROMAddress(const uint16_t& address, const uint8_t& format) {
 
 }
 
+void printEEPROMAddress(const uint16_t& from, const uint16_t& to, const uint8_t& format) {
+
+    for (uint16_t address = from; address <= to; ++address) {
+        printEEPROMAddress(address, format);
+    }
+}
 
 void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
 
