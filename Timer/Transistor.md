@@ -20,15 +20,15 @@ https://www.youtube.com/watch?v=J4oO7PT_nzQ
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220516210442021.png" alt="image-20220516210442021" style="zoom:67%;" />
+<img src="..\Pictures\image-20220516210442021.png" alt="image-20220516210442021" style="zoom:67%;" />
 
 1. Защо при еднакво напрежение и съпротивление имаме разлика във напрежението, когато е включен транзистор?
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220519015824374.png" alt="image-20220519015824374" style="zoom: 67%;" />
+<img src="..\Pictures\image-20220519015824374.png" alt="image-20220519015824374" style="zoom: 67%;" />
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220519020023113.png" alt="image-20220519020023113" style="zoom:67%;" />
+<img src="..\Pictures\image-20220519020023113.png" alt="image-20220519020023113" style="zoom:67%;" />
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220519020035973.png" alt="image-20220519020035973" style="zoom:67%;" />
+<img src="..\Pictures\image-20220519020035973.png" alt="image-20220519020035973" style="zoom:67%;" />
 
 Изводите, които си правя тук:
 

@@ -24,12 +24,12 @@
 - **Outputs** добавяме всичките изходи - **O**
 - **Table** попълваме с кликане върху всеки ред за **O**, какво очакваме при комбинацията от **S**, **A** и **B**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531014955532.png" alt="image-20220531014955532" style="zoom: 67%;" />
+<img src="..\Pictures\image-20220531014955532.png" alt="image-20220531014955532" style="zoom: 67%;" />
 
 - **Build Circuit** и сме готови.
 - [**Note**] Чрез този метод автоматично получаваме булевият израз (опростен) в **Expression**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531020238361.png" alt="image-20220531020238361" style="zoom:80%;" />
+<img src="..\Pictures\image-20220531020238361.png" alt="image-20220531020238361" style="zoom:80%;" />
 
 2. **Създаване на електрическа схема за булев израз:**
 
@@ -55,8 +55,8 @@
 
 - `~S A ~B + ~S A B + S ~A B + S A B`
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531015718917.png" alt="image-20220531015718917" style="zoom: 80%;" />
+<img src="..\Pictures\image-20220531015718917.png" alt="image-20220531015718917" style="zoom: 80%;" />
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531020215086.png" alt="image-20220531020215086" style="zoom: 80%;" />
+<img src="..\Pictures\image-20220531020215086.png" alt="image-20220531020215086" style="zoom: 80%;" />

@@ -4,7 +4,7 @@
 
 
 
-![image-20220531022944499](C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531022944499.png)
+![image-20220531022944499](..\Pictures\image-20220531022944499.png)
 
 - A.A = A, защото A е една и съща стойност.
 - - Тоест е променлива, която няма едновременно как да има две различни стойности
@@ -14,7 +14,7 @@
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531032816217.png" alt="image-20220531032816217" style="zoom:50%;" />
+<img src="..\Pictures\image-20220531032816217.png" alt="image-20220531032816217" style="zoom:50%;" />
 
 - Изглежда най-добрият вариант са такива създадени от таблица е да използваме директно Distributive и после елиминиране.
 

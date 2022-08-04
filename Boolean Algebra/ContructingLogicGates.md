@@ -18,7 +18,7 @@
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531012003392.png" alt="image-20220531012003392" style="zoom:67%;" />
+<img src="..\Pictures\image-20220531012003392.png" alt="image-20220531012003392" style="zoom:67%;" />
 
 1. **Изкарваме си булевата таблица на това, което искаме да постигнем:**
 
@@ -61,7 +61,7 @@ $$
 3. **Конструираме електрическата верига**
 
 - Ние си го правим, което е просто ако сме си опростили булевият израз
-- Използваме Logism, като там директно може да подадем израза или просто да попълним таблица, което елиминира **2** и 3 стъпка
+- Използваме Logism, като там директно може да подадем израза или просто да попълним таблица, което елиминира **2** и **3** стъпка
 
 
 
@@ -69,11 +69,11 @@ $$
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531033915311.png" alt="image-20220531033915311" style="zoom:50%;" />
+<img src="..\Pictures\image-20220531033915311.png" alt="image-20220531033915311" style="zoom:50%;" />
 
 **Опростена:**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220531034114275.png" alt="image-20220531034114275" style="zoom:67%;" />
+<img src="..\Pictures\image-20220531034114275.png" alt="image-20220531034114275" style="zoom:67%;" />
 
 
 

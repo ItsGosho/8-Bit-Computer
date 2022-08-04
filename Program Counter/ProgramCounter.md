@@ -13,7 +13,7 @@
 
 - **Свързването им се състой** от това **изхода на единият да е Clock на другият**, а **J** и **K** **винаги да са свързани HIGH**
 
-  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220703191202243.png" alt="image-20220703191202243"  />
+  <img src="..\Pictures\image-20220703191202243.png" alt="image-20220703191202243"  />
 
 - Трите ни изхода от JK Flip Flop стават бинарен брояч. На всяко едно CLK подадено на първия бинарната стойност на изходите се вдига с 1
 - Цялото това нещо се получава, заради посредника на SR Latch (Master) и слагането на състоянието при LOW сигнал на Clock-a.
@@ -26,6 +26,6 @@
 
 - Целият този цикъл прави изходите да броят с едно на всеки един Clock цикъл, защото ако най-долната стойност стане едно, то всички стойности, който са свързани с пряко с нея и са 1 ще станат 0, а първата след тях ще стане 1:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220703192509468.png" alt="image-20220703192509468" style="zoom:80%;" />
+<img src="..\Pictures\image-20220703192509468.png" alt="image-20220703192509468" style="zoom:80%;" />
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220703192522456.png" alt="image-20220703192522456" style="zoom:80%;" />
+<img src="..\Pictures\image-20220703192522456.png" alt="image-20220703192522456" style="zoom:80%;" />

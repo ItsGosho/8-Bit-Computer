@@ -38,7 +38,7 @@
   - Ако **Select = 0**, то **Y0 = B0** и **Y1 = B1** 
 - Ще имаме **74LS173 4-Bit D Register**, който ще ни помогне за това  да имаме **Clock** в **Address Module**-a.
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220625031804304.png" alt="image-20220625031804304" style="zoom:80%;" />
+<img src="..\Pictures\image-20220625031804304.png" alt="image-20220625031804304" style="zoom:80%;" />
 
 ### Data Module:
 
@@ -59,7 +59,7 @@
   - - Ръчен режим - **Push Button**
     - Автоматичен режим - **Clock**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220630162440018.png" alt="image-20220630162440018" style="zoom:80%;" />
+<img src="..\Pictures\image-20220630162440018.png" alt="image-20220630162440018" style="zoom:80%;" />
 
 #### Проблеми:
 
@@ -86,7 +86,7 @@
 - Ако закачим един и същи сигнал към двата входа на NAND Gate-a ще обърнем сигнала т.е може да го използваме като Inverter
 - Ако закачим два входа към двата входа на NAND Gate-a и резултата го обърнем (т.е го закачим пак) ще получим AND от двата входа
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220630172128112.png" alt="image-20220630172128112" style="zoom:80%;" />
+<img src="..\Pictures\image-20220630172128112.png" alt="image-20220630172128112" style="zoom:80%;" />
 
 
 

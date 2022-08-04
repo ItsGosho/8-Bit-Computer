@@ -4,15 +4,15 @@
 
 Еднобитовия регистър, който бяхме създали в CircuitJS. Ще го използваме за съхранение на стойност и нейното менажиране:
 
-![image-20220622020445797](C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220622020445797.png)
+![image-20220622020445797](..\Pictures\image-20220622020445797.png)
 
 Еднобитовият регистър, превърнат в чип/subcurcit за CircuitJS за да може да веригата, която ще създадем да изглежда по-чиста:
 
-![image-20220622020517916](C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220622020517916.png)
+![image-20220622020517916](..\Pictures\image-20220622020517916.png)
 
 2 byte ram:
 
-![image-20220622022812903](C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220622022812903.png)
+![image-20220622022812903](..\Pictures\image-20220622022812903.png)
 
 - Два реда, на всеки по 8 броя 1 битови регистри, което води до съхранението на 1 byte на ред
 - Също така на редовете, който запазват един byte също им се казва word
@@ -29,12 +29,12 @@
 
 - Да си представим, че имаме 4 byte ram:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220622212448395.png" alt="image-20220622212448395" style="zoom:80%;" />
+<img src="..\Pictures\image-20220622212448395.png" alt="image-20220622212448395" style="zoom:80%;" />
 
 - Искаме, чрез битово число да изберем на кой ред ще пишем, а не да имаме връзка към всеки ред и да го избираме:
 
-![image-20220622212539226](C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220622212539226.png)
+![image-20220622212539226](..\Pictures\image-20220622212539226.png)
 
 - Тук A0, A1,A2 репрезентират бинарно число. Имаме им стойностите както оригинални така и обърнати. Имаме и 4 броя AND-ове, като всеки един от тях декодира бинарна стойност. След това в зависимост от декодираната стойност (адрес) проверяваме дали EN или WR операцията е избрана.
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220622213113930.png" alt="image-20220622213113930" style="zoom:80%;" />
+<img src="..\Pictures\image-20220622213113930.png" alt="image-20220622213113930" style="zoom:80%;" />

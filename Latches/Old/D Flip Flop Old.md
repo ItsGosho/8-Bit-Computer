@@ -3,7 +3,7 @@
 - Представлява D Latch, който бива активиран от Clock вместо директно от бутон.
 - При Clock-a отново имаме подаване на сигнал, но е само един път за да сложим състоянието на Set/Reset-a.
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220507203511679.png" alt="image-20220507203511679"  />
+<img src="..\..\Pictures\image-20220507203511679.png" alt="image-20220507203511679"  />
 
 | D Latch                                                      | D Flip Flop                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -13,4 +13,4 @@
 
 **Flow Chart**:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220508161112347.png" alt="image-20220508161112347"  />
+<img src="..\..\Pictures\image-20220508161112347.png" alt="image-20220508161112347"  />

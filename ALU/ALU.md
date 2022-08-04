@@ -17,12 +17,12 @@
 
 - **Комбиниране** на **два** **4** битови събирача **за да получим 8 битов** такъв:
 
-  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618165617458.png" alt="image-20220618165617458" style="zoom:80%;" />
+  <img src="..\Pictures\image-20220618165617458.png" alt="image-20220618165617458" style="zoom:80%;" />
 
 - Залагане на **tri-state** за да **може да го свържем към бус лентата**.
 
-  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618171336030.png" alt="image-20220618171336030" style="zoom:80%;" />
+  <img src="..\Pictures\image-20220618171336030.png" alt="image-20220618171336030" style="zoom:80%;" />
 
 - Добавяне на логиката за изваждане:
 
-  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618175539045.png" alt="image-20220618175539045"  />
+  <img src="..\Pictures\image-20220618175539045.png" alt="image-20220618175539045"  />

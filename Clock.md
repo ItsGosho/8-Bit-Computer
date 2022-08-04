@@ -10,7 +10,7 @@
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220604142834113.png" alt="image-20220604142834113" style="zoom:50%;" />
+<img src=".\Pictures\image-20220604142834113.png" alt="image-20220604142834113" style="zoom:50%;" />
 
 
 

@@ -17,7 +17,7 @@
 
 1. **Използваме RC (Resistance-Capacitance):** (Hardware Solution)
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220528164100190.png" alt="image-20220528164100190" style="zoom: 80%;" />
+<img src="..\Pictures\image-20220528164100190.png" alt="image-20220528164100190" style="zoom: 80%;" />
 
 - Когато **не сме** **натиснали** бутона, то **кондензатора се зарежда през резистори R1 и R2**
 
@@ -45,17 +45,17 @@
     
 
     - Както виждаме от снимката, първите ни 3 бързи натискания не са достатъчни да Discharge-нат кондезатор
-    - <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220528171636006.png" alt="image-20220528171636006" style="zoom: 80%;" />
+    - <img src="..\Pictures\image-20220528171636006.png" alt="image-20220528171636006" style="zoom: 80%;" />
 
 **Charging**:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220528165352469.png" alt="image-20220528165352469" style="zoom:80%;" />
+<img src="..\Pictures\image-20220528165352469.png" alt="image-20220528165352469" style="zoom:80%;" />
 
 
 
 **Discharging**:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220528165441246.png" alt="image-20220528165441246" style="zoom:80%;" />
+<img src="..\Pictures\image-20220528165441246.png" alt="image-20220528165441246" style="zoom:80%;" />
 
 2. **Използваме 555 Timer:** (Hardware Solution)
 
@@ -65,7 +65,7 @@
   - Докато е спрян Discharge-a, то няма какво да отнеме напрежението от + на Reset Comparator-a и започва да се вдигна напрежението.
   - Когато то достигне + >= 3.3V, то SR Latch-a отива в Discharge State 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220528174103795.png" alt="image-20220528174103795"  />
+<img src="..\Pictures\image-20220528174103795.png" alt="image-20220528174103795"  />
 
 - **ОТ ГОЛЕМИНАТА НА КОНДЕНЗАТОРА И РЕЗИСТОРА ЗАВИСИ ПРИ DISCHARGE-a:**
 - - Каква ще е дължината на сигнала след натискането на бутона

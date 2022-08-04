@@ -7,7 +7,7 @@
 
 Bouncing:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220601025622266.png" alt="image-20220601025622266" style="zoom: 80%;" />
+<img src="..\Pictures\image-20220601025622266.png" alt="image-20220601025622266" style="zoom: 80%;" />
 
 - Когато сменяме от A към B или обратното от B към А се получава същото рикоширане както при Button
 - Тук обаче рикоширането **НЕ е м/у двете състояния** (**A -> B**, **B -> A**, **A -> B**, **B -> A** ... **A -> B**):
@@ -20,7 +20,7 @@ Bouncing:
 
 - Рикоширането **Е между новото състояние е междинно такова**:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220601030655647.png" alt="image-20220601030655647" style="zoom:80%;" />
+<img src="..\Pictures\image-20220601030655647.png" alt="image-20220601030655647" style="zoom:80%;" />
 
 ### Различни варианти за справяне с този проблем:
 
@@ -32,7 +32,7 @@ Bouncing:
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220601031841147.png" alt="image-20220601031841147" style="zoom:80%;" />
+<img src="..\Pictures\image-20220601031841147.png" alt="image-20220601031841147" style="zoom:80%;" />
 
 - Резисторите нарочно са там, а не само един към Ground, защото когато влезе в междинно състояние няма да имаме никакво съпротивление
 - Вече SPDT Switch-a ни става дигитален.

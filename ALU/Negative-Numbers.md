@@ -28,20 +28,20 @@
 
 - **Важно е да отбележим, че трябва да знаем с колко битови числа работим.** В примерите с 4 битови. Така знаем на коя позиция се намира Sign Bit-a.
 
-  <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618153359788.png" alt="image-20220618153359788" style="zoom:67%;" />
+  <img src="..\Pictures\image-20220618153359788.png" alt="image-20220618153359788" style="zoom:67%;" />
 
 - Нека проверим как работи събирането, когато имаме отрицателно при този метод:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618161106773.png" alt="image-20220618161106773" style="zoom:67%;" />
+<img src="..\Pictures\image-20220618161106773.png" alt="image-20220618161106773" style="zoom:67%;" />
 
 - Видимо не получаваме правилен резутат според таблицата по-горе.
 - Ще направим опит да намерим няколко отрицателни числа, които удволетворяват нашите изисквания.
-- <img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618161217803.png" alt="image-20220618161217803"  />
+- <img src="..\Pictures\image-20220618161217803.png" alt="image-20220618161217803"  />
 
 - Ако искаме да обърнем дадено число в отрицателно, просто обърщаме битовете и добавяме едно:
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220618163332304.png" alt="image-20220618163332304" style="zoom:80%;" />
+<img src="..\Pictures\image-20220618163332304.png" alt="image-20220618163332304" style="zoom:80%;" />
 
 
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220617192959803.png" alt="image-20220617192959803"  />
+<img src="..\Pictures\image-20220617192959803.png" alt="image-20220617192959803"  />

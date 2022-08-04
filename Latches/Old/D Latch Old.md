@@ -7,7 +7,7 @@
 
 
 
-<img src="..\Pictures\image-20220502202819906.png" alt="image-20220502202819906" style="zoom: 67%;" />
+<img src="..\..\Pictures\image-20220502202819906.png" alt="image-20220502202819906" style="zoom: 67%;" />
 
 | D    | EN   | Output 1 | Output 2 |
 | ---- | ---- | -------- | -------- |
@@ -20,7 +20,7 @@
 
 ### Тест 2: (Целият D-Latch)
 
-<img src="..\Pictures\image-20220502214302615.png" alt="image-20220502214302615"  />
+<img src="..\..\Pictures\image-20220502214302615.png" alt="image-20220502214302615"  />
 
 | EN   | D    | Ouput 1 | Output 2 | Output 3 | Output 4 |
 | ---- | ---- | ------- | -------- | -------- | -------- |
@@ -31,7 +31,7 @@
 
 Базиране е таблицата върху **Hold EN** -> **Hold/Realese D** -> **Realese EN**.
 
-<img src="..\Pictures\image-20220502215251993.png" alt="image-20220502215251993" style="zoom:25%;" />
+<img src="..\..\Pictures\image-20220502215251993.png" alt="image-20220502215251993" style="zoom:25%;" />
 
 - При **Hold** на **EN**-a, то *винаги* отиваме в това състояние:
 
@@ -42,4 +42,4 @@ $$
 
 **Flow Chart:**
 
-<img src="C:\Users\Gosho\Desktop\GitHub\8-bit-Computer\Pictures\image-20220508161237700.png" alt="image-20220508161237700"  />
+<img src="..\..\Pictures\image-20220508161237700.png" alt="image-20220508161237700"  />
