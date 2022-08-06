@@ -75,7 +75,7 @@ void setup() {
     int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
     pinModes(outputPins, OUTPUT);
 
-    programEEPROM3BitsSegmentDecoder();
+
 }
 
 void loop() {
