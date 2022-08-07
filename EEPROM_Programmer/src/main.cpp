@@ -33,6 +33,23 @@
 #define HEX 16
 #define BINARY 2
 
+/**
+ * Each index corresponds to the digit.
+ * Index 0 = Digit 0
+ * Index 1 = Digit 9
+ * Up to Index 9.
+ *
+ * (7) HIGH, LOW, LOW, HIGH, HIGH, LOW, LOW = 0b00110010
+ * (8) HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH = 0b11111110
+ * (9) HIGH, LOW, LOW, HIGH, HIGH, HIGH, HIGH = 0b11110010
+ */
+byte segmentDisplayMappingDigits[10] = {0b01111110, 0b00010010, 0b10111100, 0b10110110, 0b11010010, 0b11100110, 0b11101110, 0b00110010, 0b11111110, 0b11110010};
+
+/**
+ * Index 0 = -
+ */
+byte segmentDisplayCharacterMapping[1] = {0b10000000};
+
 void digitalWriteBetween(const unsigned int& startPin, const unsigned int& endPin, const unsigned int& value);
 
 unsigned int digitalReadBetween(const unsigned int& startPin, const unsigned int& endPin);
@@ -75,7 +92,14 @@ void setup() {
     int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
     pinModes(outputPins, OUTPUT);
 
+    int number = 3;
 
+    int combination0Address = number;
+    int combination1Address = (0b10 << 8) | number;
+    int combination2Address = (0b10 << 8) | number;
+    int combination3Address = (0b11 << 8) | number;
+
+    //setEEPROMAddressData(combination0Address, 0b)
 }
 
 void loop() {
