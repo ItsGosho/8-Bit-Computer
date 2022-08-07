@@ -46,9 +46,10 @@
 byte segmentDisplayMappingDigits[10] = {0b01111110, 0b00010010, 0b10111100, 0b10110110, 0b11010010, 0b11100110, 0b11101110, 0b00110010, 0b11111110, 0b11110010};
 
 /**
- * Index 0 = -
+ * Index 0 = NOTHING
+ * Index 1 = -
  */
-byte segmentDisplayCharacterMapping[1] = {0b10000000};
+byte segmentDisplayCharacterMapping[2] = {0b00000000, 0b10000000};
 
 void digitalWriteBetween(const unsigned int& startPin, const unsigned int& endPin, const unsigned int& value);
 
@@ -92,14 +93,19 @@ void setup() {
     int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
     pinModes(outputPins, OUTPUT);
 
-    int number = 3;
+    //Testing the logic for the whole digits display
+    int number = 105;
 
     int combination0Address = number;
     int combination1Address = (0b10 << 8) | number;
     int combination2Address = (0b10 << 8) | number;
     int combination3Address = (0b11 << 8) | number;
 
-    //setEEPROMAddressData(combination0Address, 0b)
+    setEEPROMAddressData(combination0Address, segmentDisplayMappingDigits[1]);
+    setEEPROMAddressData(combination1Address, segmentDisplayMappingDigits[0]);
+    setEEPROMAddressData(combination2Address, segmentDisplayMappingDigits[5]);
+
+    setEEPROMAddressData(combination3Address, segmentDisplayCharacterMapping[0]);
 }
 
 void loop() {
