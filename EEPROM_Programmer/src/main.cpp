@@ -84,6 +84,8 @@ void setEEPROMAddressData(const uint16_t& address, const uint8_t& data);
 
 void programEEPROM3BitsSegmentDecoder();
 
+void programEEPROM8BitsSegmentDecoder();
+
 void setup() {
     Serial.begin(BAUD_RATE);
     Serial.println("EEPROM Start!");
@@ -93,19 +95,10 @@ void setup() {
     int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
     pinModes(outputPins, OUTPUT);
 
-    //Testing the logic for the whole digits display
-    int number = 105;
+    Serial.println("Started programming!");
+    programEEPROM8BitsSegmentDecoder();
+    Serial.println("Finished programming!");
 
-    int combination0Address = number;
-    int combination1Address = (0b10 << 8) | number;
-    int combination2Address = (0b10 << 8) | number;
-    int combination3Address = (0b11 << 8) | number;
-
-    setEEPROMAddressData(combination0Address, segmentDisplayMappingDigits[1]);
-    setEEPROMAddressData(combination1Address, segmentDisplayMappingDigits[0]);
-    setEEPROMAddressData(combination2Address, segmentDisplayMappingDigits[5]);
-
-    setEEPROMAddressData(combination3Address, segmentDisplayCharacterMapping[0]);
 }
 
 void loop() {
@@ -118,6 +111,62 @@ void loop() {
        printEEPROMAddress(3, BINARY); //202
 
        delay(1000000);*/
+}
+
+/*    int number = 105;
+
+bool isPositive = number >= 0;
+
+number = abs(number);
+int combination0Address = (0b00 << 8) | number; //correct
+int combination1Address = (0b10 << 8) | number; // correct
+int combination2Address = (0b01 << 8) | number; // correct
+int combination3Address = (0b11 << 8) | number; // correct
+
+int onesDigit = number % 10;
+int secondDigit = (number / 10) % 10;
+int thirdDigit = (number / 100) % 10;*/
+
+/*
+ * We have 8 bit number. It implements two's complement.
+ * That means 1 bit for sign and 7 bit for the number.
+ * 1000 0000 = -128
+ * 1111 1111 = -1
+ * 0000 0000 = 0
+ * 0111 1111 = 127
+ * */
+
+void programEEPROM8BitsSegmentDecoder() {
+
+    for (int programNumber = -128; programNumber <= 127; ++programNumber) {
+
+        bool isPositive = programNumber >= 0;
+
+        /**
+         * Example:
+         * programNumber = -103 = 0b10011001 (Two's Complement)
+         * The (0b10 << 8) | programNumberConverted will not work. The result will still be 0b10011001 instead of 0b1010011001
+         * Looks like the number must be 0b10011001, but positive to work the shifting.
+         * That means 0b10011001 = 153
+         * To keep the bits, but turn it into positive just move it to uint8_t. That way the shifting will work as expected.
+         */
+        uint8_t programNumberConverted = programNumber;
+
+        int combination0Address = (0b00 << 8) | programNumberConverted;
+        int combination1Address = (0b10 << 8) | programNumberConverted;
+        int combination2Address = (0b01 << 8) | programNumberConverted;
+        int combination3Address = (0b11 << 8) | programNumberConverted;
+
+        int programNumberPositive = abs(programNumber);
+        int onesDigit = programNumberPositive % 10;
+        int secondDigit = (programNumberPositive / 10) % 10;
+        int thirdDigit = (programNumberPositive / 100) % 10;
+
+        setEEPROMAddressData(combination0Address, segmentDisplayMappingDigits[thirdDigit]);
+        setEEPROMAddressData(combination1Address, segmentDisplayMappingDigits[secondDigit]);
+        setEEPROMAddressData(combination2Address, segmentDisplayMappingDigits[onesDigit]);
+        setEEPROMAddressData(combination3Address, isPositive ? segmentDisplayCharacterMapping[0] : segmentDisplayCharacterMapping[1]);
+    }
 }
 
 void programEEPROM3BitsSegmentDecoder() {
