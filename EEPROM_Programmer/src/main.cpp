@@ -122,14 +122,20 @@ void setup() {
  *
  * Example:
  *
- * Instruction | N Microinstruction | Activate Control Signals (HLT, MI, RI, RO, IO ...)
+ * Instruction | N Microinstruction | Activate Control Signals (HLT, MI, RI, RO, IO ... J)
  *
  * 0001             000                 0100000000000010
  * 0001             001                 0001010000000100
  * 0001             010                 0100100000000000
  * 0001             011                 0001001000000000
+ *
+ * First EEPROM D0/7 order HLT, MI, RI, RO, IO, II, AI, AO
+ * Second EEPROM D0/7 order EO, SU, BI, OI, CE, CO, J, NOTHING (0)
+ *
+ * Example if you have 01000000_0000010 (HLT, MI, RI ... J)
+ * Then as data you must pass it in reverse order.
+ * 00000010_01000000
  * */
-
 void programFirstEEPROM() {
     //First EEPROM LDA INSTRUCTION
     //Address 0bA11->A0
