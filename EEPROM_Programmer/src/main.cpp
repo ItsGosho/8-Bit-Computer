@@ -34,6 +34,33 @@
 #define BINARY 2
 
 /**
+ * Because, we have many control signals we can't use a single EEPROM.
+ * ! Single EEPROM have only 8 outputs, which can't cover all signals and thus we can't active them.
+ * That means we must use 2 EEPROMs and program them separately. For the same address program first half and then the second.
+ * For easier programming the eeproms, instead of each time making the bits for a given microinstruction we can pre-define where the bits for a given
+ * control signal to be activated need to be and the using bitwise operators create the final control signals for single microinstruction.
+ */
+
+//First EEPROM
+#define HLT_CS 0b10000000
+#define MI_CS 0b01000000
+#define RI_CS 0b00100000
+#define RO_CS 0b00010000
+#define IO_CS 0b00001000
+#define II_CS 0b00000100
+#define AI_CS 0b00000010
+#define AO_CS 0b00000001
+
+//Second EEPROM
+#define EO_CS  0b10000000
+#define SU_CS  0b01000000
+#define BI_CS  0b00100000
+#define OI_CS  0b00010000
+#define CE_CS  0b00001000
+#define CO_CS  0b00000100
+#define J_CS   0b00000010
+
+/**
  * Each index corresponds to the digit.
  * Index 0 = Digit 0
  * Index 1 = Digit 9
@@ -86,6 +113,13 @@ void programEEPROM3BitsSegmentDecoder();
 
 void programEEPROM8BitsSegmentDecoder();
 
+uint16_t generateMicroinstructionAddress(const uint8_t& step, const uint8_t& instruction);
+
+const uint8_t LDA_INSTRUCTION_CODE = 0b0000;
+const uint8_t ADD_INSTRUCTION_CODE = 0b0001;
+const uint8_t OUT_INSTRUCTION_CODE = 0b0110;
+const uint8_t HLT_INSTRUCTION_CODE = 0b0111;
+
 /*TODO: CPU EEPROM Programming Logic
  * We use two EEPROMs, because the control signals are too much.
 *
@@ -112,64 +146,56 @@ void programEEPROM8BitsSegmentDecoder();
  * */
 void programFirstEEPROM() {
 
-    //First EEPROM LDA INSTRUCTION
-    setEEPROMAddressData(0b000000000000, 0b01000000); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010000, 0b00010100); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100000, 0b01001000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110000, 0b00010010); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000000, 0b00000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, LDA_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, LDA_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, LDA_INSTRUCTION_CODE), MI_CS | IO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, LDA_INSTRUCTION_CODE), RO_CS | AI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, LDA_INSTRUCTION_CODE), 0);
 
-    //First EEPROM ADD INSTRUCTION
-    setEEPROMAddressData(0b000000000001, 0b01000000); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010001, 0b00010100); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100001, 0b01001000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110001, 0b00010000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000001, 0b00000010); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, ADD_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, ADD_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, ADD_INSTRUCTION_CODE), MI_CS | IO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, ADD_INSTRUCTION_CODE), RO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, ADD_INSTRUCTION_CODE), AI_CS);
 
-    //First EEPROM OUT INSTRUCTION
-    setEEPROMAddressData(0b000000000110, 0b01000000); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010110, 0b00010100); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100110, 0b00000001); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110110, 0b00000000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000110, 0b00000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, OUT_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, OUT_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, OUT_INSTRUCTION_CODE), AO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, OUT_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, OUT_INSTRUCTION_CODE), 0);
 
-    //First EEPROM HLT INSTRUCTION
-    setEEPROMAddressData(0b000000000111, 0b01000000); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010111, 0b00010100); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100111, 0b10000000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110111, 0b00000000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000111, 0b00000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, HLT_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, HLT_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, HLT_INSTRUCTION_CODE), HLT_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, HLT_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, HLT_INSTRUCTION_CODE), 0);
 }
 
 void programSecondEEPROM() {
 
-    //Second EEPROM LDA INSTRUCTION
-    setEEPROMAddressData(0b000000000000, 0b00000100); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010000, 0b00001000); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100000, 0b00000000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110000, 0b00000000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000000, 0b00000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, LDA_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, LDA_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, LDA_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, LDA_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, LDA_INSTRUCTION_CODE), 0);
 
-    //Second EEPROM ADD INSTRUCTION
-    setEEPROMAddressData(0b000000000001, 0b00000100); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010001, 0b00001000); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100001, 0b00000000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110001, 0b00100000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000001, 0b10000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, ADD_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, ADD_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, ADD_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, ADD_INSTRUCTION_CODE), BI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, ADD_INSTRUCTION_CODE), EO_CS);
 
-    //Second EEPROM OUT INSTRUCTION
-    setEEPROMAddressData(0b000000000110, 0b00000100); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010110, 0b00001000); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100110, 0b00010000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110110, 0b00000000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000110, 0b00000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, OUT_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, OUT_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, OUT_INSTRUCTION_CODE), OI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, OUT_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, OUT_INSTRUCTION_CODE), 0);
 
-    //Second EEPROM HLT INSTRUCTION
-    setEEPROMAddressData(0b000000000111, 0b00000100); //Microinstruction: 1;
-    setEEPROMAddressData(0b000000010111, 0b00001000); //Microinstruction: 2;
-    setEEPROMAddressData(0b000000100111, 0b00000000); //Microinstruction: 3;
-    setEEPROMAddressData(0b000000110111, 0b00000000); //Microinstruction: 4;
-    setEEPROMAddressData(0b000001000111, 0b00000000); //Microinstruction: 5;
+    setEEPROMAddressData(generateMicroinstructionAddress(0, HLT_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, HLT_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, HLT_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, HLT_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, HLT_INSTRUCTION_CODE), 0);
 }
 
 void setup() {
@@ -189,30 +215,8 @@ void setup() {
 }
 
 void loop() {
-    /*   setEEPROMAddressData(1, 0b00000001);
-       setEEPROMAddressData(2, 0b00000010);
-       setEEPROMAddressData(3, 0b11001010);
 
-       printEEPROMAddress(1, BINARY); //1
-       printEEPROMAddress(2, BINARY); //2
-       printEEPROMAddress(3, BINARY); //202
-
-       delay(1000000);*/
 }
-
-/*    int number = 105;
-
-bool isPositive = number >= 0;
-
-number = abs(number);
-int combination0Address = (0b00 << 8) | number; //correct
-int combination1Address = (0b10 << 8) | number; // correct
-int combination2Address = (0b01 << 8) | number; // correct
-int combination3Address = (0b11 << 8) | number; // correct
-
-int onesDigit = number % 10;
-int secondDigit = (number / 10) % 10;
-int thirdDigit = (number / 100) % 10;*/
 
 /*
  * We have 8 bit number. It implements two's complement.
@@ -269,6 +273,41 @@ void programEEPROM3BitsSegmentDecoder() {
     Serial.println("Programmed EEPROM as decoder for 3 bit to display decoder.");
 
     //printEEPROMAddress(0, 7, BINARY);
+}
+
+/**
+ * Example:
+ * Let's say we have the OUT instruction.
+ * The OUT instruction unique code (4 bit) is 0110.
+ * The OUT instruction needs 5 total microinstruction.
+ *       EEPROM Addr. |  Control Signals
+ * 0:  0b000000000110      0b01000000
+ * 1:  0b000000010110      0b00010100
+ * 2:  0b000000100110      0b00000001
+ * 3:  0b000000110110      0b00000000
+ * 4:  0b000001000110      0b00000000
+ *
+ * Where EEPROM Address's patter is the following:
+ * 0b00000{N Microinstruction (3 bits)}{Instruction (4 Bits)}
+ *
+ * Instead of programming the eeprom the hard way and getting lost while writing the bits for each instruction's microinstructions:
+ *  setEEPROMAddressData(0b000000000110, 0b01000000); //Microinstruction: 1;
+ *  setEEPROMAddressData(0b000000010110, 0b00010100); //Microinstruction: 2;
+ *  setEEPROMAddressData(0b000000100110, 0b00000001); //Microinstruction: 3;
+ *  setEEPROMAddressData(0b000000110110, 0b00000000); //Microinstruction: 4;
+ *  setEEPROMAddressData(0b000001000110, 0b00000000); //Microinstruction: 5;
+ * You can use that method to easily generate them and not get lost in the bits:
+ *  setEEPROMAddressData(generateMicroinstructionAddress(0, OUT_INSTRUCTION_CODE), 0b01000000); //Microinstruction: 1;
+ *  setEEPROMAddressData(generateMicroinstructionAddress(1, OUT_INSTRUCTION_CODE), 0b00010100); //Microinstruction: 2;
+ *  setEEPROMAddressData(generateMicroinstructionAddress(2, OUT_INSTRUCTION_CODE), 0b00000001); //Microinstruction: 3;
+ *  setEEPROMAddressData(generateMicroinstructionAddress(3, OUT_INSTRUCTION_CODE), 0b00000000); //Microinstruction: 4;
+ *  setEEPROMAddressData(generateMicroinstructionAddress(4, OUT_INSTRUCTION_CODE), 0b00000000); //Microinstruction: 5;
+ *
+ * @param step Which line of instruction is that.
+ * @param code The unique code of the instruction
+ */
+uint16_t generatedMicroinstructionAddress(const uint8_t step, const uint8_t code) {
+    return 0b000000000000 | (step << 4) | code;;
 }
 
 /**
