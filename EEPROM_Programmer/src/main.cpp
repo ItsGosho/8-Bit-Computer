@@ -64,9 +64,9 @@ void clockPin(const uint8_t& pin, const bool& val);
 template<size_t N>
 void pinModes(int (& pins)[N], const bool& mode);
 
-void setShiftRegisterBits(const uint16_t& bits);
+void setShiftRegisterBits(const uint16_t& bits, const uint8_t& bitOrder = MSBFIRST);
 
-void setEEPROMPins(const uint16_t& address, const bool& outputEnable);
+void setEEPROMPins(const uint16_t& address, const bool& outputEnable, const uint8_t& bitOrder = MSBFIRST);
 
 uint8_t readEEPROMAddress(const uint16_t& address);
 
@@ -80,7 +80,7 @@ void printEEPROMAddress(const uint16_t& address, const uint8_t& format);
 
 void printEEPROMAddress(const uint16_t& from, const uint16_t& to, const uint8_t& format);
 
-void setEEPROMAddressData(const uint16_t& address, const uint8_t& data);
+void setEEPROMAddressData(const uint16_t& address, const uint8_t& data, const uint8_t& bitOrder = MSBFIRST);
 
 void programEEPROM3BitsSegmentDecoder();
 
@@ -88,12 +88,6 @@ void programEEPROM8BitsSegmentDecoder();
 
 /*TODO: CPU EEPROM Programming Logic
  * We use two EEPROMs, because the control signals are too much.
-*
-* Instruction Unique Code:
- * LDA : 0001
- * ADD : 0010
- * OUT : 0011
- * HLT : 0100
 *
 * Address:
 * A0/3 Instruction (4 bits)
@@ -113,70 +107,69 @@ void programEEPROM8BitsSegmentDecoder();
  * 0001             010                 0100100000000000
  * 0001             011                 0001001000000000
  *
- * First EEPROM D0/7 order HLT, MI, RI, RO, IO, II, AI, AO
- * Second EEPROM D0/7 order EO, SU, BI, OI, CE, CO, J, NOTHING (0)
- *
- * Example if you have 01000000_0000010 (HLT, MI, RI ... J)
- * Then as data you must pass it in reverse order.
- * 00000010_01000000
+ * 0b00000{Microinstruction 3 bits}{Instruction 4 Bits}
+ * 0b00000{Step 3 bits}{Code 4 Bits}
  * */
 void programFirstEEPROM() {
-    //First EEPROM FETCH
-    setEEPROMAddressData(0b000000000000, 0b00000010);
-    setEEPROMAddressData(0b000000010000, 0b00101000);
 
     //First EEPROM LDA INSTRUCTION
-    //Address 0bA11->A0
-    setEEPROMAddressData(0b000000100001, 0b00000010); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110001, 0b00101000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000001, 0b00010010); //Instruction LDA; Microinstruction: 5;
-    setEEPROMAddressData(0b000001010001, 0b01001000); //Instruction LDA; Microinstruction: 6;
+    setEEPROMAddressData(0b000000000000, 0b01000000); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010000, 0b00010100); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100000, 0b01001000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110000, 0b00010010); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000000, 0b00000000); //Microinstruction: 5;
 
     //First EEPROM ADD INSTRUCTION
-    setEEPROMAddressData(0b000000100010, 0b00000010); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110010, 0b00101000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000010, 0b00010010); //Instruction LDA; Microinstruction: 5;
-    setEEPROMAddressData(0b000001010010, 0b00001000); //Instruction LDA; Microinstruction: 6;
-    setEEPROMAddressData(0b000001100010, 0b01000000); //Instruction LDA; Microinstruction: 7;
+    setEEPROMAddressData(0b000000000001, 0b01000000); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010001, 0b00010100); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100001, 0b01001000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110001, 0b00010000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000001, 0b00000010); //Microinstruction: 5;
 
     //First EEPROM OUT INSTRUCTION
-    setEEPROMAddressData(0b000000100011, 0b01000000); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110011, 0b00010100); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000011, 0b00000001); //Instruction LDA; Microinstruction: 5;
+    setEEPROMAddressData(0b000000000110, 0b01000000); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010110, 0b00010100); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100110, 0b00000001); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110110, 0b00000000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000110, 0b00000000); //Microinstruction: 5;
 
     //First EEPROM HLT INSTRUCTION
-    setEEPROMAddressData(0b000000100100, 0b00000010); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110100, 0b00101000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000100, 0b00000001); //Instruction LDA; Microinstruction: 5;
+    setEEPROMAddressData(0b000000000111, 0b01000000); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010111, 0b00010100); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100111, 0b10000000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110111, 0b00000000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000111, 0b00000000); //Microinstruction: 5;
 }
 
 void programSecondEEPROM() {
-    //Second EEPROM FETCH
-    setEEPROMAddressData(0b000000000000, 0b01000000);
-    setEEPROMAddressData(0b000000010000, 0b00100000);
 
     //Second EEPROM LDA INSTRUCTION
-    setEEPROMAddressData(0b000000100001, 0b01000000); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110001, 0b00100000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000001, 0b00000000); //Instruction LDA; Microinstruction: 5;
-    setEEPROMAddressData(0b000001010001, 0b00000000); //Instruction LDA; Microinstruction: 6;
+    setEEPROMAddressData(0b000000000000, 0b00000100); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010000, 0b00001000); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100000, 0b00000000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110000, 0b00000000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000000, 0b00000000); //Microinstruction: 5;
 
     //Second EEPROM ADD INSTRUCTION
-    setEEPROMAddressData(0b000000100010, 0b01000000); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110010, 0b00100000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000010, 0b00000000); //Instruction LDA; Microinstruction: 5;
-    setEEPROMAddressData(0b000001010010, 0b00000100); //Instruction LDA; Microinstruction: 6;
-    setEEPROMAddressData(0b000001100010, 0b00000001); //Instruction LDA; Microinstruction: 7;
+    setEEPROMAddressData(0b000000000001, 0b00000100); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010001, 0b00001000); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100001, 0b00000000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110001, 0b00100000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000001, 0b10000000); //Microinstruction: 5;
 
     //Second EEPROM OUT INSTRUCTION
-    setEEPROMAddressData(0b000000100011, 0b01000000); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110011, 0b00100000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000011, 0b00001000); //Instruction LDA; Microinstruction: 5;
+    setEEPROMAddressData(0b000000000110, 0b00000100); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010110, 0b00001000); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100110, 0b00010000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110110, 0b00000000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000110, 0b00000000); //Microinstruction: 5;
 
     //Second EEPROM HLT INSTRUCTION
-    setEEPROMAddressData(0b000000100100, 0b01000000); //Instruction LDA; Microinstruction: 3;
-    setEEPROMAddressData(0b000000110100, 0b00100000); //Instruction LDA; Microinstruction: 4;
-    setEEPROMAddressData(0b000001000100, 0b00000000); //Instruction LDA; Microinstruction: 5;
+    setEEPROMAddressData(0b000000000111, 0b00000100); //Microinstruction: 1;
+    setEEPROMAddressData(0b000000010111, 0b00001000); //Microinstruction: 2;
+    setEEPROMAddressData(0b000000100111, 0b00000000); //Microinstruction: 3;
+    setEEPROMAddressData(0b000000110111, 0b00000000); //Microinstruction: 4;
+    setEEPROMAddressData(0b000001000111, 0b00000000); //Microinstruction: 5;
 }
 
 void setup() {
@@ -190,7 +183,7 @@ void setup() {
 
     Serial.println("Started programming!");
     //programEEPROM8BitsSegmentDecoder();
-    programFirstEEPROM();
+    programEEPROM8BitsSegmentDecoder();
     Serial.println("Finished programming!");
 
 }
@@ -286,12 +279,12 @@ void programEEPROM3BitsSegmentDecoder() {
  * The shift register has two storages. Shift and Storage Register. The outputed bits from it are from the Storage Register.
  * After storing the 16 bits in the shift register we clock the RCLK_PIN, which moves the stored bits in the Shift Register to the Storage Register.
  */
-void setShiftRegisterBits(const uint16_t& bits) {
+void setShiftRegisterBits(const uint16_t& bits, const uint8_t& bitOrder) {
     uint8_t msb = bits >> 8;
     uint8_t lsb = bits & 0b11111111;
 
-    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, msb);
-    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, MSBFIRST, lsb);
+    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, bitOrder, msb);
+    shiftOut(SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_SR_CLK_PIN, bitOrder, lsb);
 
     clockPin(SHIFT_REGISTER_RCLK_PIN, HIGH);
 }
@@ -299,10 +292,10 @@ void setShiftRegisterBits(const uint16_t& bits) {
 /**
  * Sets the address of the EEPROM and if the EEPROM's output will be enabled.
  */
-void setEEPROMPins(const uint16_t& address, const bool& outputEnable) {
+void setEEPROMPins(const uint16_t& address, const bool& outputEnable, const uint8_t& bitOrder) {
     uint16_t shiftOutData = (!outputEnable << 11) | address;
 
-    setShiftRegisterBits(shiftOutData);
+    setShiftRegisterBits(shiftOutData, bitOrder);
 }
 
 uint8_t readEEPROMAddress(const uint16_t& address) {
@@ -366,9 +359,9 @@ void printEEPROMAddress(const uint16_t& from, const uint16_t& to, const uint8_t&
     }
 }
 
-void setEEPROMAddressData(const uint16_t& address, const uint8_t& data) {
+void setEEPROMAddressData(const uint16_t& address, const uint8_t& data, const uint8_t& bitOrder) {
 
-    setEEPROMPins(address, false);
+    setEEPROMPins(address, false, bitOrder);
 
     digitalWriteBetween(EEPROM_IO_START_PIN, EEPROM_IO_END_PIN, data);
 
