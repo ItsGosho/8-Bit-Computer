@@ -60,6 +60,16 @@
 #define CO_CS  0b00000100
 #define J_CS   0b00000010
 
+const uint8_t LDA_INSTRUCTION_CODE = 0b0000;
+const uint8_t LDB_INSTRUCTION_CODE = 0b0001;
+const uint8_t ADD_INSTRUCTION_CODE = 0b0010;
+const uint8_t SUB_INSTRUCTION_CODE = 0b0011;
+const uint8_t STA_INSTRUCTION_CODE = 0b0100;
+const uint8_t LDI_INSTRUCTION_CODE = 0b0101;
+const uint8_t JMP_INSTRUCTION_CODE = 0b0110;
+const uint8_t OUT_INSTRUCTION_CODE = 0b0111;
+const uint8_t HLT_INSTRUCTION_CODE = 0b1000;
+
 /**
  * Each index corresponds to the digit.
  * Index 0 = Digit 0
@@ -115,13 +125,7 @@ void programEEPROM8BitsSegmentDecoder();
 
 uint16_t generateMicroinstructionAddress(const uint8_t& step, const uint8_t& instruction);
 
-const uint8_t LDA_INSTRUCTION_CODE = 0b0000;
-const uint8_t ADD_INSTRUCTION_CODE = 0b0001;
-const uint8_t OUT_INSTRUCTION_CODE = 0b0110;
-const uint8_t HLT_INSTRUCTION_CODE = 0b0111;
-
-/*TODO: CPU EEPROM Programming Logic
- * We use two EEPROMs, because the control signals are too much.
+/*
 *
 * Address:
 * A0/3 Instruction (4 bits)
@@ -152,11 +156,41 @@ void programFirstEEPROM() {
     setEEPROMAddressData(generateMicroinstructionAddress(3, LDA_INSTRUCTION_CODE), RO_CS | AI_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(4, LDA_INSTRUCTION_CODE), 0);
 
+    setEEPROMAddressData(generateMicroinstructionAddress(0, LDB_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, LDB_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, LDB_INSTRUCTION_CODE), MI_CS | IO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, LDB_INSTRUCTION_CODE), RO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, LDB_INSTRUCTION_CODE), 0);
+
     setEEPROMAddressData(generateMicroinstructionAddress(0, ADD_INSTRUCTION_CODE), MI_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(1, ADD_INSTRUCTION_CODE), RO_CS | II_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(2, ADD_INSTRUCTION_CODE), MI_CS | IO_CS);
-    setEEPROMAddressData(generateMicroinstructionAddress(3, ADD_INSTRUCTION_CODE), RO_CS);
-    setEEPROMAddressData(generateMicroinstructionAddress(4, ADD_INSTRUCTION_CODE), AI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, ADD_INSTRUCTION_CODE), RI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, ADD_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, SUB_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, SUB_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, SUB_INSTRUCTION_CODE), MI_CS | IO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, SUB_INSTRUCTION_CODE), RO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, SUB_INSTRUCTION_CODE), AI_CS);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, STA_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, STA_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, STA_INSTRUCTION_CODE), MI_CS | IO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, STA_INSTRUCTION_CODE), RI_CS | AO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, STA_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, LDI_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, LDI_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, LDI_INSTRUCTION_CODE), IO_CS | AI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, LDI_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, LDI_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, JMP_INSTRUCTION_CODE), MI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, JMP_INSTRUCTION_CODE), RO_CS | II_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, JMP_INSTRUCTION_CODE), IO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, JMP_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, JMP_INSTRUCTION_CODE), 0);
 
     setEEPROMAddressData(generateMicroinstructionAddress(0, OUT_INSTRUCTION_CODE), MI_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(1, OUT_INSTRUCTION_CODE), RO_CS | II_CS);
@@ -179,11 +213,41 @@ void programSecondEEPROM() {
     setEEPROMAddressData(generateMicroinstructionAddress(3, LDA_INSTRUCTION_CODE), 0);
     setEEPROMAddressData(generateMicroinstructionAddress(4, LDA_INSTRUCTION_CODE), 0);
 
+    setEEPROMAddressData(generateMicroinstructionAddress(0, LDB_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, LDB_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, LDB_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, LDB_INSTRUCTION_CODE), BI_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, LDB_INSTRUCTION_CODE), 0);
+
     setEEPROMAddressData(generateMicroinstructionAddress(0, ADD_INSTRUCTION_CODE), CO_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(1, ADD_INSTRUCTION_CODE), CE_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(2, ADD_INSTRUCTION_CODE), 0);
-    setEEPROMAddressData(generateMicroinstructionAddress(3, ADD_INSTRUCTION_CODE), BI_CS);
-    setEEPROMAddressData(generateMicroinstructionAddress(4, ADD_INSTRUCTION_CODE), EO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, ADD_INSTRUCTION_CODE), EO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, ADD_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, SUB_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, SUB_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, SUB_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, SUB_INSTRUCTION_CODE), EO_CS | SU_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, SUB_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, STA_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, STA_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, STA_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, STA_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, STA_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, LDI_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, LDI_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, LDI_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, LDI_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, LDI_INSTRUCTION_CODE), 0);
+
+    setEEPROMAddressData(generateMicroinstructionAddress(0, JMP_INSTRUCTION_CODE), CO_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(1, JMP_INSTRUCTION_CODE), CE_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(2, JMP_INSTRUCTION_CODE), J_CS);
+    setEEPROMAddressData(generateMicroinstructionAddress(3, JMP_INSTRUCTION_CODE), 0);
+    setEEPROMAddressData(generateMicroinstructionAddress(4, JMP_INSTRUCTION_CODE), 0);
 
     setEEPROMAddressData(generateMicroinstructionAddress(0, OUT_INSTRUCTION_CODE), CO_CS);
     setEEPROMAddressData(generateMicroinstructionAddress(1, OUT_INSTRUCTION_CODE), CE_CS);
@@ -207,11 +271,12 @@ void setup() {
     int outputPins[4] = {EEPROM_WE_PIN, SHIFT_REGISTER_SER_PIN, SHIFT_REGISTER_RCLK_PIN, SHIFT_REGISTER_SR_CLK_PIN};
     pinModes(outputPins, OUTPUT);
 
-    Serial.println("Started programming!");
-    //programEEPROM8BitsSegmentDecoder();
-    programEEPROM8BitsSegmentDecoder();
-    Serial.println("Finished programming!");
 
+
+    Serial.println("Started programming!");
+    //programFirstEEPROM();
+    programSecondEEPROM();
+    Serial.println("Finished programming!");
 }
 
 void loop() {
@@ -306,7 +371,7 @@ void programEEPROM3BitsSegmentDecoder() {
  * @param step Which line of instruction is that.
  * @param code The unique code of the instruction
  */
-uint16_t generatedMicroinstructionAddress(const uint8_t step, const uint8_t code) {
+uint16_t generateMicroinstructionAddress(const uint8_t& step, const uint8_t& code) {
     return 0b000000000000 | (step << 4) | code;;
 }
 
